@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using CheckOver.Data;
 using Microsoft.AspNetCore.Identity;
 using CheckOver.Repository;
+using CheckOver.Models;
 
 namespace CheckOver
 {
@@ -29,10 +30,16 @@ namespace CheckOver
         {
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddMvc();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+            services.AddScoped<IStateRepository, StateRepository>();
+            services.AddScoped<IExerciseRepository, ExerciseRepository>();
+            services.AddScoped<IInvitationRepository, InvitationRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             
         }
 

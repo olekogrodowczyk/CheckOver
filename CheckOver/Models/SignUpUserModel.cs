@@ -8,6 +8,10 @@ namespace CheckOver.Models
 {
     public class SignUpUserModel
     {
+        [Required(ErrorMessage = "Proszę podać nazwisko")]
+        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Proszę podać imię")]
+        public string LastName { get; set; }
         [Required(ErrorMessage = "Proszę podać adres e-mail")]
         [Display(Name = "Adres e-mail")]
         [EmailAddress(ErrorMessage = "Proszę podać prawidłowy adres e-mail")]

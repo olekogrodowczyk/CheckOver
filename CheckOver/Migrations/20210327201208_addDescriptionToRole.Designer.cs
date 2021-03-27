@@ -4,14 +4,16 @@ using CheckOver.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CheckOver.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210327201208_addDescriptionToRole")]
+    partial class addDescriptionToRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,30 +127,6 @@ namespace CheckOver.Migrations
                     b.ToTable("Assignment");
                 });
 
-            modelBuilder.Entity("CheckOver.Models.Exercise", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("DeadLine")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MaxPoints")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Exercise");
-                });
-
             modelBuilder.Entity("CheckOver.Models.Group", b =>
                 {
                     b.Property<int>("Id")
@@ -232,18 +210,12 @@ namespace CheckOver.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AssignmentId");
-
-                    b.HasIndex("ExerciseId")
-                        .IsUnique();
 
                     b.ToTable("State");
                 });
@@ -445,15 +417,7 @@ namespace CheckOver.Migrations
                         .WithMany("States")
                         .HasForeignKey("AssignmentId");
 
-                    b.HasOne("CheckOver.Models.Exercise", "Exercise")
-                        .WithOne("State")
-                        .HasForeignKey("CheckOver.Models.State", "ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Assignment");
-
-                    b.Navigation("Exercise");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -510,11 +474,6 @@ namespace CheckOver.Migrations
             modelBuilder.Entity("CheckOver.Models.Assignment", b =>
                 {
                     b.Navigation("States");
-                });
-
-            modelBuilder.Entity("CheckOver.Models.Exercise", b =>
-                {
-                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("CheckOver.Models.Group", b =>
