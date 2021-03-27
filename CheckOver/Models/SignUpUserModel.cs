@@ -18,7 +18,7 @@ namespace CheckOver.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required(ErrorMessage = "Proszę potwierdzić hasło")]
-        [Display(Name = "Powtwierdź hasło")]
+        [Display(Name = "Potwierdź hasło")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
     }
