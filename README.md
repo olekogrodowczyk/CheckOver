@@ -1,5 +1,7 @@
 # CheckOver
 <div align="center">
-    <img src="project.PNG"</img> 
+    </h1>Projekt</h1>
+    <img src="project.PNG"></img> 
+    <h1>Schemat</h1>
+    <img src="schema.png"></img>
 </div>
-<center><h1><img src="schema.png"</img></center>
