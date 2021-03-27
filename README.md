@@ -1,4 +1,4 @@
 # CheckOver
 <div align="center">
-    <img src="project.PNG" width="400px"</img> 
+    <img src="project.PNG"</img> 
 </div>
