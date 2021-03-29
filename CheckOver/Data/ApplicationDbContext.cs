@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CheckOver.Models;
 
 namespace CheckOver.Data
 {
@@ -20,7 +19,7 @@ namespace CheckOver.Data
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Invitation> invitations{ get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<State> States { get; set; }
+        public DbSet<ExerciseState> ExerciseStates { get; set; }
         public DbSet<Assignment> Assignments{ get; set; }
         public DbSet<Group> Groups { get; set; }
     }

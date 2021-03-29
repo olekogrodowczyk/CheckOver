@@ -13,6 +13,7 @@ using CheckOver.Data;
 using Microsoft.AspNetCore.Identity;
 using CheckOver.Repository;
 using CheckOver.Models;
+using CheckOver.Service;
 
 namespace CheckOver
 {
@@ -46,11 +47,12 @@ namespace CheckOver
 
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
-            services.AddScoped<IStateRepository, StateRepository>();
+            services.AddScoped<IExerciseStateRepository, ExerciseStateRepository>();
             services.AddScoped<IExerciseRepository, ExerciseRepository>();
             services.AddScoped<IInvitationRepository, InvitationRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserService, UserService>();
             
         }
 
@@ -65,7 +67,8 @@ namespace CheckOver
             app.UseRouting();
             app.UseStaticFiles();
             app.UseAuthentication();
-
+            app.UseAuthorization();
+            //dbInitializer.Initialize();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();

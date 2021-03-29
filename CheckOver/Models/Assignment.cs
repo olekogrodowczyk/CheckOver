@@ -8,8 +8,9 @@ namespace CheckOver.Models
     public class Assignment
     {
         public int Id { get; set; }
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
-        public ICollection<State> States{ get; set; }
-        public Invitation Invitation { get; set; }
+        public ApplicationUser User { get; set; }
+        public Role Role { get; set; }
+        public Group Group { get; set; }
+        public ICollection<ExerciseState> ExerciseStates { get; set; }
     }
 }

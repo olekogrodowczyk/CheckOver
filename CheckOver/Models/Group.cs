@@ -9,7 +9,9 @@ namespace CheckOver.Models
     {
         public int Id { get; set; }
         public DateTime? CreateDate{ get; set; }
+        public string Name { get; set; }
         public ICollection<Invitation> Invitations{ get; set; }
+        public ICollection<Assignment> Assignments { get; set; }
         public ApplicationUser Admin { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CheckOver.Repository
 {
-    public interface IStateRepository
+    public interface IExerciseStateRepository
     {
         int function();
     }

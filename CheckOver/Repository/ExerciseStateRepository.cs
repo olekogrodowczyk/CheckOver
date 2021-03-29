@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CheckOver.Repository
 {
-    public class StateRepository : IStateRepository
+    public class ExerciseStateRepository : IExerciseStateRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public StateRepository(ApplicationDbContext context)
+        public ExerciseStateRepository(ApplicationDbContext context)
         {
             _context = context;
         }

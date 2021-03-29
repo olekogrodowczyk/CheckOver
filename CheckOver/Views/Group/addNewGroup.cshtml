@@ -1,0 +1,49 @@
+﻿@model CheckOver.Models.MakeGroupModel
+
+<div class="container-login100">
+    <div class="wrap-login100">
+        <div class="login100-more" style="background-image: url('images/group.jpg');"></div>
+        <form asp-action="AddNewGroup" class="login100-form validate-form">
+
+            <span class="login100-form-title p-b-34 text-dark">
+                Tworzenie grupy
+            </span>
+            <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                <input asp-for="Name" id="first-name" class="input100" placeholder="Nazwa">
+                <span class="focus-input100"></span>
+            </div>           
+            <div class="container-login100-form-btn">
+                <button class="login100-form-btn">
+                    Stwórz grupę
+                </button>
+            </div>
+            <div class="m-t-5 m-b-5 text-danger" asp-validation-summary="ModelOnly"></div>
+
+        </form>
+    </div>
+</div>
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<script>
+        $(".selection-2").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect1')
+        });
+</script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>

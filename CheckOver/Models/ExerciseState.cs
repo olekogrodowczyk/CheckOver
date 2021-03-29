@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckOver.Models
 {
-    public class State
+    public class ExerciseState
     {
         public int Id { get; set; }
         public Assignment Assignment { get; set; }
@@ -14,5 +14,6 @@ namespace CheckOver.Models
         public int Points { get; set; }
         public Exercise Exercise { get; set; }
         public int ExerciseId { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }

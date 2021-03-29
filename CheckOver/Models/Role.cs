@@ -9,6 +9,7 @@ namespace CheckOver.Models
     {
         public int Id { get; set; }
         public ICollection<Invitation> Invitations { get; set; }
+        public ICollection<Assignment> Assignments { get; set; }
         public string Description { get; set; }
     }
 }
