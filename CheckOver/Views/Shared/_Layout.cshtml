@@ -26,7 +26,7 @@
 <body>
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">CheckOver</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">CheckOver</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -35,7 +35,7 @@
                     @if (_signInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Group" asp-action="GetAllGroups">Twoje grupy</a>
+                            <a class="nav-link" asp-controller="Group" asp-action="GetUsersGroups">Twoje grupy</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Group" asp-action="AddNewGroup">Stwórz grupę</a>
@@ -51,7 +51,7 @@
             </div>
         </nav>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-bottom: 100px">
         @RenderBody()
     </div>
     <footer class="bg-light text-center text-lg-start fixed-bottom footer text-white">

@@ -3,22 +3,28 @@
 <div class="container-login100">
     <div class="wrap-login100">
         <div class="login100-more" style="background-image: url('images/group.jpg');"></div>
-        <form asp-action="AddNewGroup" class="login100-form validate-form">
-
-            <span class="login100-form-title p-b-34 text-dark">
+        <form asp-action="AddNewGroup" enctype="multipart/form-data" class="login100-form validate-form">
+            <div class="m-t-5 m-b-5 text-danger" asp-validation-summary="All"></div>
+            <span class=" login100-form-title p-b-34 text-dark">
                 Tworzenie grupy
             </span>
-            <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+            <div style="width:100%" class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
                 <input asp-for="Name" id="first-name" class="input100" placeholder="Nazwa">
-                <span class="focus-input100"></span>
-            </div>           
+                <span class="focus-input100" style=""></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="CoverPhoto" class="form-label"></label>
+                <div class="custom-file">
+                    <input asp-for="CoverPhoto" class="custom-file-input" id="customFile" />
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+            </div>
             <div class="container-login100-form-btn">
                 <button class="login100-form-btn">
                     Stwórz grupę
                 </button>
             </div>
-            <div class="m-t-5 m-b-5 text-danger" asp-validation-summary="ModelOnly"></div>
-
         </form>
     </div>
 </div>
@@ -35,10 +41,10 @@
 <!--===============================================================================================-->
 <script src="vendor/select2/select2.min.js"></script>
 <script>
-        $(".selection-2").select2({
-            minimumResultsForSearch: 20,
-            dropdownParent: $('#dropDownSelect1')
-        });
+    $(".selection-2").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect1')
+    });
 </script>
 <!--===============================================================================================-->
 <script src="vendor/daterangepicker/moment.min.js"></script>

@@ -8,8 +8,9 @@ namespace CheckOver.Models
     public class Role
     {
         public int Id { get; set; }
-        public ICollection<Invitation> Invitations { get; set; }
-        public ICollection<Assignment> Assignments { get; set; }
-        public string Description { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
+        public virtual ICollection<Privileges> Privileges { get; set; }
+        public string Name { get; set; }
     }
 }

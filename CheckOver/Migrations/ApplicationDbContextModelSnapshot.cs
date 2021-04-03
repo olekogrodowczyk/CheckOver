@@ -100,10 +100,10 @@ namespace CheckOver.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("GroupId")
+                    b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -127,6 +127,9 @@ namespace CheckOver.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("DeadLine")
                         .HasColumnType("datetime2");
 
@@ -143,6 +146,8 @@ namespace CheckOver.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Exercises");
                 });
@@ -173,8 +178,7 @@ namespace CheckOver.Migrations
 
                     b.HasIndex("AssignmentId");
 
-                    b.HasIndex("ExerciseId")
-                        .IsUnique();
+                    b.HasIndex("ExerciseId");
 
                     b.ToTable("ExerciseStates");
                 });
@@ -188,6 +192,9 @@ namespace CheckOver.Migrations
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CoverImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -237,7 +244,7 @@ namespace CheckOver.Migrations
                     b.ToTable("invitations");
                 });
 
-            modelBuilder.Entity("CheckOver.Models.Role", b =>
+            modelBuilder.Entity("CheckOver.Models.Privileges", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,6 +252,26 @@ namespace CheckOver.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Privileges");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -387,11 +414,15 @@ namespace CheckOver.Migrations
                 {
                     b.HasOne("CheckOver.Models.Group", "Group")
                         .WithMany("Assignments")
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CheckOver.Models.Role", "Role")
                         .WithMany("Assignments")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CheckOver.Models.ApplicationUser", "User")
                         .WithMany("Assignments")
@@ -404,6 +435,15 @@ namespace CheckOver.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CheckOver.Models.Exercise", b =>
+                {
+                    b.HasOne("CheckOver.Models.ApplicationUser", "Creator")
+                        .WithMany("ExercisesCreated")
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("CheckOver.Models.ExerciseState", b =>
                 {
                     b.HasOne("CheckOver.Models.Assignment", "Assignment")
@@ -411,8 +451,8 @@ namespace CheckOver.Migrations
                         .HasForeignKey("AssignmentId");
 
                     b.HasOne("CheckOver.Models.Exercise", "Exercise")
-                        .WithOne("ExerciseState")
-                        .HasForeignKey("CheckOver.Models.ExerciseState", "ExerciseId")
+                        .WithMany()
+                        .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -455,6 +495,15 @@ namespace CheckOver.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.Privileges", b =>
+                {
+                    b.HasOne("CheckOver.Models.Role", "Role")
+                        .WithMany("Privileges")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -512,6 +561,8 @@ namespace CheckOver.Migrations
                 {
                     b.Navigation("Assignments");
 
+                    b.Navigation("ExercisesCreated");
+
                     b.Navigation("InvitationsReceived");
 
                     b.Navigation("InvitationsSent");
@@ -520,11 +571,6 @@ namespace CheckOver.Migrations
             modelBuilder.Entity("CheckOver.Models.Assignment", b =>
                 {
                     b.Navigation("ExerciseStates");
-                });
-
-            modelBuilder.Entity("CheckOver.Models.Exercise", b =>
-                {
-                    b.Navigation("ExerciseState");
                 });
 
             modelBuilder.Entity("CheckOver.Models.Group", b =>
@@ -539,6 +585,8 @@ namespace CheckOver.Migrations
                     b.Navigation("Assignments");
 
                     b.Navigation("Invitations");
+
+                    b.Navigation("Privileges");
                 });
 #pragma warning restore 612, 618
         }

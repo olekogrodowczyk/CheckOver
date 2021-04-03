@@ -12,7 +12,7 @@ namespace CheckOver.Models
         public string Description { get; set; }
         public int MaxPoints { get; set; }
         public DateTime? DeadLine { get; set; }
-        public ExerciseState ExerciseState { get; set; }
         public string ProgrammingLanguage { get; set; }
+        public ApplicationUser Creator { get; set; }
     }
 }

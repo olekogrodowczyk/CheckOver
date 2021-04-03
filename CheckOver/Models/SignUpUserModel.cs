@@ -8,10 +8,10 @@ namespace CheckOver.Models
 {
     public class SignUpUserModel
     {
-        [Required(ErrorMessage = "Proszę podać nazwisko")]
+        [Required(ErrorMessage = "Proszę podać imię")]
         [Display(Name = "Imię")]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "Proszę podać imię")]
+        [Required(ErrorMessage = "Proszę podać nazwisko")]
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
         [Required(ErrorMessage = "Proszę podać adres e-mail")]
@@ -27,5 +27,6 @@ namespace CheckOver.Models
         [Display(Name = "Potwierdź hasło")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+
     }
 }

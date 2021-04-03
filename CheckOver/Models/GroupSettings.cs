@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CheckOver.Models
 {
-    public class MakeGroupModel
+    public class GroupSettings
     {
-        [Required]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "Nazwa grupy musi mieć minimalnie 6 znaków.")]
         public string Name { get; set; }
         public IFormFile CoverPhoto { get; set; }
         public string CoverImageUrl { get; set; }

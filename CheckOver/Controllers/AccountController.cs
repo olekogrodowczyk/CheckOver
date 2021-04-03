@@ -39,10 +39,11 @@ namespace CheckOver.Controllers
                     {
                         ModelState.AddModelError("", errorMessage.Description);
                     }
+                    return View(userModel);
                 }
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+            return View(userModel);
         }
 
         [HttpGet]

@@ -18,5 +18,7 @@ namespace CheckOver.Models
         public virtual ICollection<Invitation> InvitationsReceived { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<Assignment> Assignments { get; set; }
+        [InverseProperty("Creator")]
+        public virtual   ICollection<Exercise> ExercisesCreated { get; set; }
     }
 }

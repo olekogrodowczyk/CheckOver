@@ -58,9 +58,17 @@ a {
   -moz-transition: all 0.4s;
 }
 
+.footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
 .navbar
 {
 	height:10vh;
+	max-height:75px;
 }
 
 
@@ -342,7 +350,6 @@ input.input100 {
   -o-transform: scale(1);
   transform: scale(1);
 }
-
 
 
 /*------------------------------------------------------------------

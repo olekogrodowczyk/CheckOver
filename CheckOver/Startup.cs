@@ -53,6 +53,7 @@ namespace CheckOver
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPrivilegeRepository, PrivilegeRepository>();
             
         }
 
