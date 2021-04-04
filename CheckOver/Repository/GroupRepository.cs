@@ -76,8 +76,9 @@ namespace CheckOver.Repository
         {
             var userId = _userService.GetUserId();
             var User = _context.Users.FirstOrDefault(x => x.Id == userId);
-            var assignments = _context.Assignments.Where(x => x.User == User);
-            return await assignments.Select(x => x.Group).ToListAsync();
+            var groups = await _context.Assignments.Include(x => x.Group.Admin).Where(x => x.User == User).
+                Select(x => x.Group).ToListAsync();
+            return groups;
         }
 
         public async Task<Group> GetGroupById(int id)

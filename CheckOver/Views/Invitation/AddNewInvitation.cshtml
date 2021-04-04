@@ -1,0 +1,23 @@
+﻿@model CheckOver.Models.ViewModels.InvitationVM
+<div class="container-login100">
+    <div class="wrap-login100">
+        <div class="login100-more" style="background: url('@Url.Content("~/images/invitation.jpg")');"></div>
+        <form asp-action="AddNewInvitation" class="login100-form validate-form">
+            <div class="m-t-5 m-b-5 text-danger" asp-validation-summary="All"></div>
+            <span class=" login100-form-title p-b-34 text-dark">
+                Tworzenie zaproszenia
+            </span>
+            <div style="width:100%" class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                <input asp-for="Email" id="first-name" class="input100" placeholder="Nazwa">
+                <span class="focus-input100" style=""></span>
+            </div>
+            <div class="container-login100-form-btn">
+                <button class="login100-form-btn">
+                    Zaproś użytkownika
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="dropDownSelect1"></div>

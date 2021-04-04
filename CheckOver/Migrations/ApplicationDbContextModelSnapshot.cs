@@ -216,7 +216,10 @@ namespace CheckOver.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("GroupId")
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReceiverId")
@@ -474,7 +477,9 @@ namespace CheckOver.Migrations
                 {
                     b.HasOne("CheckOver.Models.Group", "Group")
                         .WithMany("Invitations")
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CheckOver.Models.ApplicationUser", "Receiver")
                         .WithMany("InvitationsReceived")

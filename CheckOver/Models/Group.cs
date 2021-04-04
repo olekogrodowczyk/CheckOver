@@ -11,11 +11,12 @@ namespace CheckOver.Models
     public class Group
     {
         public int Id { get; set; }
-        public DateTime? CreateDate{ get; set; }
+        public DateTime? CreateDate { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Invitation> Invitations{ get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
-        public ApplicationUser Admin { get; set; }
+        public virtual ApplicationUser Admin { get; set; }
+
         [Display(Name = "Wybierz obrazek swojej grupy")]
         public string CoverImageUrl { get; set; }
     }

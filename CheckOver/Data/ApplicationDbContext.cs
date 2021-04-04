@@ -23,5 +23,6 @@ namespace CheckOver.Data
         public DbSet<ExerciseState> ExerciseStates { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Privileges> Privileges { get; set; }
     }
 }

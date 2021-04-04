@@ -11,10 +11,16 @@ namespace CheckOver.Models
     {
         [Key]
         public int Id { get; set; }
+
         public virtual ApplicationUser Sender { get; set; }
         public virtual ApplicationUser Receiver { get; set; }
         public string Status { get; set; }
-        public Role Role { get; set; }
-        public Group Group { get; set; }
+        public virtual Role Role { get; set; }
+
+        [ForeignKey("Group")]
+        public int GroupId { get; set; }
+
+        public virtual Group Group { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

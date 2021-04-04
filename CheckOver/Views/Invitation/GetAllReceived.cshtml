@@ -1,0 +1,43 @@
+﻿@model List<Invitation>
+@{
+    ViewData["Title"] = "Zaproszenia odebrane";
+}
+
+<div class="table-responsive mt-2">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nadawca</th>
+                <th>Założyciel grupy</th>
+                <th>Nazwa grupy</th>
+                <th>Rola</th>
+                <th>Status</th>
+                <th>Data wysłania</th>
+                <th>Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                @if (item.Status == "Oczekujące")
+                {
+                    <tr class="table-primary">
+                        <partial name="_InvitationsReceivedTr" model="item" />
+                    </tr>
+                }
+                else if (item.Status == "Zaakceptowane")
+                {
+                    <tr class="table-success">
+                        <partial name="_InvitationsReceivedTr" model="item" />
+                    </tr>
+                }
+                else
+                {
+                    <tr class="table-danger">
+                        <partial name="_InvitationsReceivedTr" model="item" />
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

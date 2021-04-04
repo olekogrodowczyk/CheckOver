@@ -20,5 +20,10 @@ namespace CheckOver.Service
         {
             return _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
+
+        public string GetUserEmail()
+        {
+            return _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.Email);
+        }
     }
 }

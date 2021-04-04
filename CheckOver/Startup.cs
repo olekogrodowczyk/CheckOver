@@ -25,6 +25,7 @@ namespace CheckOver
         {
             _configuration = configuration;
         }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -44,7 +45,6 @@ namespace CheckOver
 
             services.AddMvc();
 
-
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<IExerciseStateRepository, ExerciseStateRepository>();
@@ -54,7 +54,6 @@ namespace CheckOver
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPrivilegeRepository, PrivilegeRepository>();
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

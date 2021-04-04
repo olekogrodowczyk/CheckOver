@@ -1,12 +1,10 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Grupa/" + Model.Name;
 }
 @model CheckOver.Models.Group
 
-
 <h1>Nazwa grupy: @Model.Name</h1>
 <h2>Założyciel: @Model.Admin.FirstName @Model.Admin.LastName</h2>
-<img class ="img-fluid" style="width:300px;"src="~/@Model.CoverImageUrl" alt="Card image cap">
+<img class="img-fluid" style="width:300px;" src="~/@Model.CoverImageUrl" alt="Card image cap">
 <a asp-controller="Group" asp-action="GroupSettings" asp-route-id="@Model.Id" class="btn btn-primary">Ustawienia</a>
-
+<a asp-controller="Invitation" asp-action="AddNewInvitation" asp-route-GroupId="@Model.Id" class="btn btn-primary">Zaproś użytkownika</a>
