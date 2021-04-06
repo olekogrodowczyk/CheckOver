@@ -6,8 +6,10 @@ namespace CheckOver.Repository
 {
     public interface IAccountRepository
     {
-        Task<IdentityResult> CreateUserAsync(SignUpUserModel userModel);
-        Task<SignInResult> PasswordSignInAsync(SignInModel signInModel);
+        Task<IdentityResult> CreateUserAsync(SignUpVM userModel);
+
+        Task<SignInResult> PasswordSignInAsync(SignInVM signInModel);
+
         Task SignOutAsync();
     }
 }

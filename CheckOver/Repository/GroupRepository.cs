@@ -2,136 +2,143 @@
 using CheckOver.Models;
 using CheckOver.Service;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace CheckOver.Repository
 {
     public class GroupRepository : IGroupRepository
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IUserService _userService;
+        private readonly ApplicationDbContext context;
+        private readonly IUserService userService;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IBlobService blobService;
 
-        public GroupRepository(ApplicationDbContext context, IUserService userService, IWebHostEnvironment webHostEnvironment)
+        public GroupRepository(ApplicationDbContext context, IUserService userService,
+            IWebHostEnvironment webHostEnvironment, IBlobService blobService)
         {
-            _context = context;
-            _userService = userService;
+            this.context = context;
+            this.userService = userService;
             this.webHostEnvironment = webHostEnvironment;
-        }
-
-        public int function()
-        {
-            return 0;
+            this.blobService = blobService;
         }
 
         public string id()
         {
-            var userId = _userService.GetUserId();
+            var userId = userService.GetUserId();
             return userId;
         }
 
-        public async Task<int> AddNewGroup(MakeGroupModel makeGroupModel)
+        public async Task<List<Assignment>> getMembers(int groupId)
         {
-            var userId = _userService.GetUserId();
-            var User = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var group = await context.Groups.Include(x => x.Assignments)
+                .ThenInclude(x => x.User).Include(x => x.Assignments).ThenInclude(x => x.Role)
+                .FirstOrDefaultAsync(x => x.GroupId == groupId);
+            var assignments = group.Assignments.ToList();
+            return assignments;
+        }
+
+        public int GetUsers(int GroupId)
+        {
+            var group = context.Groups.FirstOrDefaultAsync(x => x.GroupId == GroupId);
+            return 0;
+        }
+
+        public async Task<string> getGroupPhoto(int id)
+        {
+            var group = await context.Groups.FirstOrDefaultAsync(x => x.GroupId == id);
+            return group.CoverImageUrl;
+        }
+
+        public async Task<string> AddNewPhotoToServer(IFormFile CoverPhoto, string CoverImageUrl)
+        {
+            var uploads = Path.Combine(webHostEnvironment.WebRootPath, "uploads");
+            bool exists = Directory.Exists(uploads);
+            if (!exists)
+            {
+                Directory.CreateDirectory(uploads);
+            }
+            string fileName = Guid.NewGuid().ToString() + "_" + CoverPhoto.FileName;
+            CoverImageUrl = fileName;
+            var fileStream = CoverPhoto.OpenReadStream();
+            string contentType = CoverPhoto.ContentType;
+            string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, fileName);
+            await blobService.UploadFileBlobAsync("checkoverblob", fileStream, contentType, fileName);
+            return CoverImageUrl;
+        }
+
+        public async Task<int> AddNewGroup(MakeGroupVM makeGroupModel)
+        {
+            var userId = userService.GetUserId();
+            var User = context.Users.FirstOrDefault(x => x.Id == userId);
+            string url = "";
             if (makeGroupModel.CoverPhoto != null)
             {
-                string folder = "group/cover/";
-                folder += Guid.NewGuid().ToString() + "_" + makeGroupModel.CoverPhoto.FileName;
-                makeGroupModel.CoverImageUrl = folder;
-                string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, folder);
-                await makeGroupModel.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                url = await AddNewPhotoToServer(makeGroupModel.CoverPhoto, makeGroupModel.CoverImageUrl);
             }
             var newGroup = new Group()
             {
-                Admin = User,
+                Creator = User,
                 Name = makeGroupModel.Name,
-                CreateDate = DateTime.Now,
-                CoverImageUrl = makeGroupModel.CoverImageUrl
+                CreatedAt = DateTime.Now,
+                CoverImageUrl = url
             };
-            var newRole = _context.Roles.FirstOrDefault(x => x.Name == "Creator");
+            var newRole = context.Roles.FirstOrDefault(x => x.Name == "Creator");
             var newAssignment = new Assignment()
             {
                 User = User,
                 Role = newRole,
-                Group = newGroup
+                Group = newGroup,
+                CreatedAt = DateTime.Now
             };
-            await _context.Groups.AddAsync(newGroup);
-            await _context.Assignments.AddAsync(newAssignment);
-            await _context.SaveChangesAsync();
-            return newGroup.Id;
+            await context.Groups.AddAsync(newGroup);
+            await context.Assignments.AddAsync(newAssignment);
+            await context.SaveChangesAsync();
+            return newGroup.GroupId;
         }
 
         public async Task<List<Group>> GetAllGroups()
         {
-            return await _context.Groups.Take(2).ToListAsync();
+            return await context.Groups.Take(2).ToListAsync();
         }
 
         public async Task<List<Group>> GetUsersGroups()
         {
-            var userId = _userService.GetUserId();
-            var User = _context.Users.FirstOrDefault(x => x.Id == userId);
-            var groups = await _context.Assignments.Include(x => x.Group.Admin).Where(x => x.User == User).
+            var userId = userService.GetUserId();
+            var User = context.Users.FirstOrDefault(x => x.Id == userId);
+            var groups = await context.Assignments.Include(x => x.Group.Creator).Where(x => x.User == User).
                 Select(x => x.Group).ToListAsync();
             return groups;
         }
 
         public async Task<Group> GetGroupById(int id)
         {
-            return await _context.Groups.Where(x => x.Id == id)
-                .Select(group => new Group()
-                {
-                    Admin = group.Admin,
-                    CreateDate = group.CreateDate,
-                    Id = group.Id,
-                    Name = group.Name,
-                    CoverImageUrl = group.CoverImageUrl,
-                    Invitations = group.Invitations.Select(i => new Invitation()
-                    {
-                        Id = i.Id,
-                        Group = i.Group,
-                        Sender = i.Sender,
-                        Receiver = i.Receiver,
-                        Status = i.Status,
-                        Role = i.Role
-                    }).ToList(),
-                    Assignments = group.Assignments.Select(a => new Assignment()
-                    {
-                        Id = a.Id,
-                        Group = a.Group,
-                        Role = a.Role,
-                        GroupId = a.GroupId
-                    }).ToList()
-                }).FirstOrDefaultAsync();
+            var groups = await context.Groups
+                .Include(x => x.Invitations)
+                .Include(x => x.Creator)
+                .Include(x => x.Assignments)
+                .FirstOrDefaultAsync(x => x.GroupId == id);
+            return groups;
         }
 
-        public async Task<int> ApplyGroupSettings(GroupSettings groupSettings, int id)
+        public async Task<int> ApplyGroupSettings(GroupSettingsVM groupSettings, int id)
         {
-            var result = _context.Groups.SingleOrDefault(g => g.Id == id);
+            var result = context.Groups.SingleOrDefault(g => g.GroupId == id);
+            string url = "";
             if (result != null)
             {
                 if (groupSettings.CoverPhoto != null)
                 {
-                    string folder = "group/cover";
-                    folder += Guid.NewGuid().ToString() + "_" + groupSettings.CoverPhoto.FileName;
-                    groupSettings.CoverImageUrl = folder;
-                    string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, folder);
-                    await groupSettings.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                    url = await AddNewPhotoToServer(groupSettings.CoverPhoto, groupSettings.CoverImageUrl);
                 }
-                if (groupSettings.Name != null)
-                {
-                    result.Name = groupSettings.Name;
-                }
-                if (groupSettings.CoverImageUrl != null)
-                {
-                    result.CoverImageUrl = groupSettings.CoverImageUrl;
-                }
-                await _context.SaveChangesAsync();
+                if (groupSettings.Name != null) { result.Name = groupSettings.Name; }
+                if (groupSettings.CoverPhoto != null) { result.CoverImageUrl = url; }
+                await context.SaveChangesAsync();
                 return id;
             }
             return 0;

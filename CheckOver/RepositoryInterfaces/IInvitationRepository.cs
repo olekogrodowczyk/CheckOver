@@ -11,8 +11,6 @@ namespace CheckOver.Repository
 
         Task<string> AddNewInvitation(InvitationVM invitationVM, int id);
 
-        int function();
-
         Task<List<Invitation>> GetReceivedInvitations();
 
         Task<List<Invitation>> GetSentInvitations();

@@ -6,12 +6,20 @@ namespace CheckOver.Repository
 {
     public interface IGroupRepository
     {
-        Task<int> AddNewGroup(MakeGroupModel makeGroupModel);
-        Task<int> ApplyGroupSettings(GroupSettings groupSettings, int id);
-        int function();
+        Task<int> AddNewGroup(MakeGroupVM makeGroupModel);
+
+        Task<int> ApplyGroupSettings(GroupSettingsVM groupSettings, int id);
+
         Task<List<Group>> GetAllGroups();
+
         Task<Group> GetGroupById(int id);
+
+        Task<string> getGroupPhoto(int id);
+
+        Task<List<Assignment>> getMembers(int groupId);
+
         Task<List<Group>> GetUsersGroups();
+
         string id();
     }
 }

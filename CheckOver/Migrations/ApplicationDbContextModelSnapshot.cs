@@ -31,7 +31,7 @@ namespace CheckOver.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -95,10 +95,13 @@ namespace CheckOver.Migrations
 
             modelBuilder.Entity("CheckOver.Models.Assignment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AssignmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -109,7 +112,7 @@ namespace CheckOver.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AssignmentId");
 
                     b.HasIndex("GroupId");
 
@@ -120,103 +123,98 @@ namespace CheckOver.Migrations
                     b.ToTable("Assignments");
                 });
 
-            modelBuilder.Entity("CheckOver.Models.Exercise", b =>
+            modelBuilder.Entity("CheckOver.Models.Checking", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CheckingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CheckerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CheckingId");
+
+                    b.HasIndex("CheckerId");
+
+                    b.ToTable("Checkings");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.Exercise", b =>
+                {
+                    b.Property<int>("ExerciseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("DeadLine")
+                    b.Property<DateTime>("DeadLine")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaxPoints")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("MaxPoints")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProgrammingLanguage")
+                    b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ExerciseId");
 
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Exercises");
                 });
 
-            modelBuilder.Entity("CheckOver.Models.ExerciseState", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AssignmentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Points")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssignmentId");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.ToTable("ExerciseStates");
-                });
-
             modelBuilder.Entity("CheckOver.Models.Group", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("GroupId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CoverImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreateDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("GroupId");
 
-                    b.HasIndex("AdminId");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("CheckOver.Models.Invitation", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("InvitationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreationDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("GroupId")
@@ -225,7 +223,7 @@ namespace CheckOver.Migrations
                     b.Property<string>("ReceiverId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("SenderId")
@@ -234,7 +232,7 @@ namespace CheckOver.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("InvitationId");
 
                     b.HasIndex("GroupId");
 
@@ -244,12 +242,12 @@ namespace CheckOver.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("invitations");
+                    b.ToTable("Invitations");
                 });
 
-            modelBuilder.Entity("CheckOver.Models.Privileges", b =>
+            modelBuilder.Entity("CheckOver.Models.Permission", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PermissionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -257,19 +255,17 @@ namespace CheckOver.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PermissionId");
 
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Privileges");
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("CheckOver.Models.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -277,9 +273,68 @@ namespace CheckOver.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoleId");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.RolePermission", b =>
+                {
+                    b.Property<int>("RolePermissionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RolePermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.Solving", b =>
+                {
+                    b.Property<int>("SolvingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CheckingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProgrammingLanguage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SolvingId");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("CheckingId")
+                        .IsUnique();
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("Solvings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -438,6 +493,15 @@ namespace CheckOver.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CheckOver.Models.Checking", b =>
+                {
+                    b.HasOne("CheckOver.Models.ApplicationUser", "Checker")
+                        .WithMany("Checkings")
+                        .HasForeignKey("CheckerId");
+
+                    b.Navigation("Checker");
+                });
+
             modelBuilder.Entity("CheckOver.Models.Exercise", b =>
                 {
                     b.HasOne("CheckOver.Models.ApplicationUser", "Creator")
@@ -447,30 +511,13 @@ namespace CheckOver.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("CheckOver.Models.ExerciseState", b =>
-                {
-                    b.HasOne("CheckOver.Models.Assignment", "Assignment")
-                        .WithMany("ExerciseStates")
-                        .HasForeignKey("AssignmentId");
-
-                    b.HasOne("CheckOver.Models.Exercise", "Exercise")
-                        .WithMany()
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Assignment");
-
-                    b.Navigation("Exercise");
-                });
-
             modelBuilder.Entity("CheckOver.Models.Group", b =>
                 {
-                    b.HasOne("CheckOver.Models.ApplicationUser", "Admin")
-                        .WithMany()
-                        .HasForeignKey("AdminId");
+                    b.HasOne("CheckOver.Models.ApplicationUser", "Creator")
+                        .WithMany("GroupsCreated")
+                        .HasForeignKey("CreatorId");
 
-                    b.Navigation("Admin");
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("CheckOver.Models.Invitation", b =>
@@ -487,7 +534,9 @@ namespace CheckOver.Migrations
 
                     b.HasOne("CheckOver.Models.Role", "Role")
                         .WithMany("Invitations")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CheckOver.Models.ApplicationUser", "Sender")
                         .WithMany("InvitationsSent")
@@ -502,13 +551,50 @@ namespace CheckOver.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("CheckOver.Models.Privileges", b =>
+            modelBuilder.Entity("CheckOver.Models.RolePermission", b =>
                 {
+                    b.HasOne("CheckOver.Models.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CheckOver.Models.Role", "Role")
-                        .WithMany("Privileges")
-                        .HasForeignKey("RoleId");
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.Solving", b =>
+                {
+                    b.HasOne("CheckOver.Models.Assignment", "Assignment")
+                        .WithMany("Solvings")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CheckOver.Models.Checking", "Checking")
+                        .WithOne("Solving")
+                        .HasForeignKey("CheckOver.Models.Solving", "CheckingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CheckOver.Models.Exercise", "Exercise")
+                        .WithMany("Solvings")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Checking");
+
+                    b.Navigation("Exercise");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -566,7 +652,11 @@ namespace CheckOver.Migrations
                 {
                     b.Navigation("Assignments");
 
+                    b.Navigation("Checkings");
+
                     b.Navigation("ExercisesCreated");
+
+                    b.Navigation("GroupsCreated");
 
                     b.Navigation("InvitationsReceived");
 
@@ -575,7 +665,17 @@ namespace CheckOver.Migrations
 
             modelBuilder.Entity("CheckOver.Models.Assignment", b =>
                 {
-                    b.Navigation("ExerciseStates");
+                    b.Navigation("Solvings");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.Checking", b =>
+                {
+                    b.Navigation("Solving");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.Exercise", b =>
+                {
+                    b.Navigation("Solvings");
                 });
 
             modelBuilder.Entity("CheckOver.Models.Group", b =>
@@ -585,13 +685,18 @@ namespace CheckOver.Migrations
                     b.Navigation("Invitations");
                 });
 
+            modelBuilder.Entity("CheckOver.Models.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+                });
+
             modelBuilder.Entity("CheckOver.Models.Role", b =>
                 {
                     b.Navigation("Assignments");
 
                     b.Navigation("Invitations");
 
-                    b.Navigation("Privileges");
+                    b.Navigation("RolePermissions");
                 });
 #pragma warning restore 612, 618
         }

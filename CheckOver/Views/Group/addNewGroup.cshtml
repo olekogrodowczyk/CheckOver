@@ -1,4 +1,4 @@
-﻿@model CheckOver.Models.MakeGroupModel
+﻿@model MakeGroupVM
 
 <div class="container-login100">
     <div class="wrap-login100">
@@ -8,19 +8,20 @@
             <span class=" login100-form-title p-b-34 text-dark">
                 Tworzenie grupy
             </span>
-            <div style="width:100%" class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
-                <input asp-for="Name" id="first-name" class="input100" placeholder="Nazwa">
-                <span class="focus-input100" style=""></span>
+            <div class="col-12 mb-4">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" type="text" class="form-control" id="inputAddress" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label asp-for="CoverPhoto" class="form-label"></label>
                 <div class="custom-file">
                     <input asp-for="CoverPhoto" class="custom-file-input" id="customFile" />
-                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <label class="custom-file-label mt-0" for="customFile">Wybierz zdjęcie</label>
                 </div>
                 <span asp-validation-for="CoverPhoto" class="text-danger"></span>
             </div>
-            <div class="container-login100-form-btn">
+            <div class="container-login100-form-btn mt-4">
                 <button class="login100-form-btn">
                     Stwórz grupę
                 </button>

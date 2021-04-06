@@ -13,7 +13,6 @@ namespace CheckOver.Controllers
     {
         private readonly IAccountRepository _accountRepository;
 
-
         public AccountController(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
@@ -28,7 +27,7 @@ namespace CheckOver.Controllers
 
         [HttpPost]
         [Route("rejestracja")]
-        public async Task<IActionResult> SignUp(SignUpUserModel userModel)
+        public async Task<IActionResult> SignUp(SignUpVM userModel)
         {
             if (ModelState.IsValid)
             {
@@ -55,9 +54,9 @@ namespace CheckOver.Controllers
 
         [HttpPost]
         [Route("logowanie")]
-        public async Task<IActionResult> SignIn(SignInModel signInModel)
+        public async Task<IActionResult> SignIn(SignInVM signInModel)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var result = await _accountRepository.PasswordSignInAsync(signInModel);
                 if (result.Succeeded)
@@ -69,7 +68,7 @@ namespace CheckOver.Controllers
                     ModelState.AddModelError("", "Błędny adres e-mail albo hasło");
                 }
             }
-            return View(signInModel);            
+            return View(signInModel);
         }
 
         [Route("wylogowywanie")]

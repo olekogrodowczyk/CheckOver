@@ -1,5 +1,6 @@
 ﻿using CheckOver.Data;
 using CheckOver.Models;
+using CheckOver.Models.ViewModels;
 using CheckOver.Repository;
 using CheckOver.Service;
 using Microsoft.AspNetCore.Hosting;
@@ -45,7 +46,7 @@ namespace CheckOver.Controllers
 
         [HttpPost]
         [Route("tworzenie-grupy")]
-        public async Task<IActionResult> AddNewGroup(MakeGroupModel makeGroupModel)
+        public async Task<IActionResult> AddNewGroup(MakeGroupVM makeGroupModel)
         {
             if (ModelState.IsValid)
             {
@@ -69,8 +70,16 @@ namespace CheckOver.Controllers
         [Route("grupa/{id}")]
         public async Task<ViewResult> GetGroup(int id)
         {
-            var data = await groupRepository.GetGroupById(id);
+            GetGroupVM data = new GetGroupVM();
+            data.Group = await groupRepository.GetGroupById(id);
+            data.Assignments = await groupRepository.getMembers(id);
             return View(data);
+        }
+
+        [HttpGet]
+        public ViewResult GetUsers(int GroupId)
+        {
+            return View();
         }
 
         [HttpGet]
@@ -82,7 +91,7 @@ namespace CheckOver.Controllers
 
         [Route("grupa/{id}/ustawienia")]
         [HttpPost]
-        public async Task<ActionResult> GroupSettings(GroupSettings groupSettings, int id)
+        public async Task<ActionResult> GroupSettings(GroupSettingsVM groupSettings, int id)
         {
             if (ModelState.IsValid)
             {

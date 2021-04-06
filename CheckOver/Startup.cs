@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using CheckOver.Repository;
 using CheckOver.Models;
 using CheckOver.Service;
+using Azure.Storage.Blobs;
 
 namespace CheckOver
 {
@@ -34,6 +35,7 @@ namespace CheckOver
                 options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped(x => new BlobServiceClient(_configuration.GetValue<string>("AzureBlobStorage")));
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -54,6 +56,7 @@ namespace CheckOver
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPrivilegeRepository, PrivilegeRepository>();
+            services.AddScoped<IBlobService, BlobService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

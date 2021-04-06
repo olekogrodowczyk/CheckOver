@@ -18,7 +18,7 @@ namespace CheckOver.Repository
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(SignUpUserModel userModel)
+        public async Task<IdentityResult> CreateUserAsync(SignUpVM userModel)
         {
             var user = new ApplicationUser()
             {
@@ -31,7 +31,7 @@ namespace CheckOver.Repository
             return result;
         }
 
-        public async Task<SignInResult> PasswordSignInAsync(SignInModel signInModel)
+        public async Task<SignInResult> PasswordSignInAsync(SignInVM signInModel)
         {
             var result = await _signInManager.PasswordSignInAsync(signInModel.Email, signInModel.Password, signInModel.RememberMe, false);
             return result;

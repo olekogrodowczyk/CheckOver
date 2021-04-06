@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace CheckOver.Models
 {
-    public class Role
+    public class Permission
     {
         [Key]
-        public int RoleId { get; set; }
+        public int PermissionId { get; set; }
 
-        public virtual ICollection<Invitation> Invitations { get; set; }
-        public virtual ICollection<Assignment> Assignments { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public virtual ICollection<RolePermission> RolePermissions { get; set; }
-        public string Name { get; set; }
     }
 }

@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace CheckOver.Models
 {
-    public class MakeGroupModel
+    public class GroupSettingsVM
     {
-        [Required]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "Nazwa grupy musi mieć minimalnie 6 znaków.")]
+        [Display(Name = "Nazwa")]
         public string Name { get; set; }
+
+        [Display(Name = "Zdjęcie")]
         public IFormFile CoverPhoto { get; set; }
+
         public string CoverImageUrl { get; set; }
+        public string PresentImageUrl { get; set; }
     }
 }

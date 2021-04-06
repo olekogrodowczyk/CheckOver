@@ -1,21 +1,21 @@
-﻿@model GroupSettings
+﻿@model GroupSettingsVM
 @{
     ViewData["Title"] = "GroupSettings";
 }
 
-<h1>GroupSettings</h1>
 <form asp-action="GroupSettings" class="row g-3 login100-form validate-form formularz" enctype="multipart/form-data">
+    <h2>Ustawienia grupy</h2>
     <div asp-validation-summary="ModelOnly" class="text-danger m-b-25"></div>
     <div class="col-12">
         <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" type="text" class="form-control" id="inputAddress"/>
+        <input asp-for="Name" type="text" class="form-control" id="inputAddress" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-    <div class="col-md-6">
+    <div class="col-12">
         <label asp-for="CoverPhoto" class="form-label"></label>
         <div class="custom-file">
             <input asp-for="CoverPhoto" class="custom-file-input" id="customFile" />
-            <label class="custom-file-label" for="customFile">Choose file</label>
+            <label class="custom-file-label mt-0" for="customFile">Wybierz zdjęcie</label>
         </div>
         <span asp-validation-for="CoverPhoto" class="text-danger"></span>
     </div>

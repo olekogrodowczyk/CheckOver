@@ -11,14 +11,24 @@ namespace CheckOver.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime CreatedAt { get; set; }
+
         [InverseProperty("Sender")]
         public virtual ICollection<Invitation> InvitationsSent { get; set; }
+
         [InverseProperty("Receiver")]
         public virtual ICollection<Invitation> InvitationsReceived { get; set; }
+
         [InverseProperty("User")]
         public virtual ICollection<Assignment> Assignments { get; set; }
+
         [InverseProperty("Creator")]
-        public virtual   ICollection<Exercise> ExercisesCreated { get; set; }
+        public virtual ICollection<Exercise> ExercisesCreated { get; set; }
+
+        [InverseProperty("Checker")]
+        public virtual ICollection<Checking> Checkings { get; set; }
+
+        [InverseProperty("Creator")]
+        public virtual ICollection<Group> GroupsCreated { get; set; }
     }
 }
