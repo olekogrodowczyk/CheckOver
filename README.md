@@ -3,7 +3,7 @@
     <h1>Logowanie i rejestracja</h1>
     <img src="Design/logowanie i rejestracja.JPG"></img> 
     <h1>Zadania</h1>
-    <img src="Design/zadania.JPG"></img
+    <img src="Design/zadania.JPG"></img>
     <h1>Widok grupy</h1>
     <img src="Design/widok grupy.JPG"></img>
     <h1>Dodawanie i oddawanie zadania</h1>
