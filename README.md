@@ -1,7 +1,17 @@
 # CheckOver
 <div align="center">
-    <h1>Projekt strony głównej</h1>
-    <img src="project.PNG"></img> 
+    <h1>Logowanie i rejestracja</h1>
+    <img src="logowanie i rejestracja.JPG"></img> 
+    <h1>Zadania</h1>
+    <img src="zadania.JPG"></img
+    <h1>Widok grupy</h1>
+    <img src="widok grupy.JPG"></img>
+    <h1>Dodawanie i oddawanie zadania</h1>
+    <img src="dodawanie i oddawanie zadania.JPG"></img> 
+    <h1>Grupy</h1>
+    <h1>Poprawione zadanie</h1>
+    <img src="poprawione zadanie.JPG"></img> 
+    <img src="grupy.JPG"></img> 
     <h1>Schemat bazy danych</h1>
     <img src="schema.jpg"></img>
 </div>
