@@ -9,7 +9,7 @@
     <h1>Dodawanie i oddawanie zadania</h1>
     <img src="Design/dodawanie i oddawanie zadania.JPG"></img> 
     <h1>Poprawione zadanie</h1>
-    <img src="Design.poprawione zadanie.JPG"></img> 
+    <img src="Design/poprawione zadanie.JPG"></img> 
     <h1>Grupy</h1>
     <img src="Design/grupy.JPG"></img> 
     <h1>Schemat bazy danych</h1>
