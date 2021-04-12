@@ -1,6 +1,6 @@
 # CheckOver
 <div align="center">
-    <img src="CheckOver.JPG"></img>
+    <img src="~/CheckOver.JPG"></img>
     <h1>Logowanie i rejestracja</h1>
     <img src="Design/logowanie i rejestracja.JPG"></img> 
     <h1>Zadania</h1>
