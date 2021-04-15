@@ -32,13 +32,15 @@
             <tbody>
                 @foreach (var item in Model.Assignments)
                 {
-                <tr>
-                    <td>@item.User.FirstName @item.User.LastName</td>
-                    <td>@item.User.Email</td>
-                    <td>@item.CreatedAt</td>
-                    <td>@item.Role.Name</td>
-                    <td><a href="#" class="btn btn-primary">Wyrzuć z grupy</a></td>
-                </tr>
+                    <tr>
+                        <td>@item.User.FirstName @item.User.LastName</td>
+                        <td>@item.User.Email</td>
+                        <td>@item.CreatedAt</td>
+                        <td>@item.Role.Name</td>
+                        <td>
+                            <a href="#" class="btn btn-primary">Wyrzuć z grupy</a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

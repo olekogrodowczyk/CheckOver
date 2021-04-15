@@ -14,14 +14,17 @@ namespace CheckOver.Models
 
         public string Title { get; set; }
         public string Description { get; set; }
-        public string MaxPoints { get; set; }
+        public int MaxPoints { get; set; }
         public DateTime DeadLine { get; set; }
 
         [ForeignKey("Creator")]
         public string CreatorId { get; set; }
 
         public virtual ApplicationUser Creator { get; set; }
+
+        [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; }
+
         public virtual ICollection<Solving> Solvings { get; set; }
     }
 }

@@ -142,9 +142,15 @@ namespace CheckOver.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SolvingId")
+                        .HasColumnType("int");
+
                     b.HasKey("CheckingId");
 
                     b.HasIndex("CheckerId");
+
+                    b.HasIndex("SolvingId")
+                        .IsUnique();
 
                     b.ToTable("Checkings");
                 });
@@ -168,8 +174,8 @@ namespace CheckOver.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MaxPoints")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MaxPoints")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -310,9 +316,6 @@ namespace CheckOver.Migrations
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CheckingId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -328,9 +331,6 @@ namespace CheckOver.Migrations
                     b.HasKey("SolvingId");
 
                     b.HasIndex("AssignmentId");
-
-                    b.HasIndex("CheckingId")
-                        .IsUnique();
 
                     b.HasIndex("ExerciseId");
 
@@ -499,7 +499,15 @@ namespace CheckOver.Migrations
                         .WithMany("Checkings")
                         .HasForeignKey("CheckerId");
 
+                    b.HasOne("CheckOver.Models.Solving", "Solving")
+                        .WithOne("Checking")
+                        .HasForeignKey("CheckOver.Models.Checking", "SolvingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Checker");
+
+                    b.Navigation("Solving");
                 });
 
             modelBuilder.Entity("CheckOver.Models.Exercise", b =>
@@ -578,12 +586,6 @@ namespace CheckOver.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CheckOver.Models.Checking", "Checking")
-                        .WithOne("Solving")
-                        .HasForeignKey("CheckOver.Models.Solving", "CheckingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CheckOver.Models.Exercise", "Exercise")
                         .WithMany("Solvings")
                         .HasForeignKey("ExerciseId")
@@ -591,8 +593,6 @@ namespace CheckOver.Migrations
                         .IsRequired();
 
                     b.Navigation("Assignment");
-
-                    b.Navigation("Checking");
 
                     b.Navigation("Exercise");
                 });
@@ -668,11 +668,6 @@ namespace CheckOver.Migrations
                     b.Navigation("Solvings");
                 });
 
-            modelBuilder.Entity("CheckOver.Models.Checking", b =>
-                {
-                    b.Navigation("Solving");
-                });
-
             modelBuilder.Entity("CheckOver.Models.Exercise", b =>
                 {
                     b.Navigation("Solvings");
@@ -697,6 +692,11 @@ namespace CheckOver.Migrations
                     b.Navigation("Invitations");
 
                     b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("CheckOver.Models.Solving", b =>
+                {
+                    b.Navigation("Checking");
                 });
 #pragma warning restore 612, 618
         }

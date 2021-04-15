@@ -49,13 +49,11 @@ namespace CheckOver
 
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
-            services.AddScoped<IExerciseStateRepository, ExerciseStateRepository>();
             services.AddScoped<IExerciseRepository, ExerciseRepository>();
             services.AddScoped<IInvitationRepository, InvitationRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPrivilegeRepository, PrivilegeRepository>();
             services.AddScoped<IBlobService, BlobService>();
         }
 

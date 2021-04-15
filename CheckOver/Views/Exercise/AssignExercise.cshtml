@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Group>
 @{
-    ViewData["Title"] = "GetAllGroups";
+    ViewData["Title"] = "Assign";
 }
 
 <div class="row p-4">
@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text">Założyciel: @item.Creator.FirstName @item.Creator.LastName</p>
-                        <a asp-controller="Group" asp-action="GetGroup" asp-route-id="@item.GroupId" class="btn btn-primary">Przejdź do grupy</a>
+                        <a asp-controller="Exercise" asp-action="AssignExerciseToUsers" asp-route-Groupid="@item.GroupId" asp-route-ExerciseId="@ViewBag.ExerciseId" class="btn btn-primary">Przejdź do grupy</a>
                     </div>
                 </div>
             </div>

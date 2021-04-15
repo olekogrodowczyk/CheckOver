@@ -12,11 +12,6 @@ namespace CheckOver.Models
         [Key]
         public int SolvingId { get; set; }
 
-        [ForeignKey("Checking")]
-        public int CheckingId { get; set; }
-
-        public virtual Checking Checking { get; set; }
-
         [ForeignKey("Exercise")]
         public int ExerciseId { get; set; }
 
@@ -29,5 +24,6 @@ namespace CheckOver.Models
         public int AssignmentId { get; set; }
 
         public virtual Assignment Assignment { get; set; }
+        public virtual Checking Checking { get; set; }
     }
 }
