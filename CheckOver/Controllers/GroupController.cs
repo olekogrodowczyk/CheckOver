@@ -53,7 +53,7 @@ namespace CheckOver.Controllers
                 int id = await groupRepository.AddNewGroup(makeGroupModel);
                 if (id > 0)
                 {
-                    return RedirectToAction(nameof(AddNewGroup), new { isSuccess = true, bookId = id });
+                    return RedirectToAction(nameof(AddNewGroup), new { isSuccess = true, groupId = id });
                 }
             }
             return View();

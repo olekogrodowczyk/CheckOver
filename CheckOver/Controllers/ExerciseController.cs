@@ -45,6 +45,71 @@ namespace CheckOver.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> ShowAssignedExercises()
+        {
+            var data = await exerciseRepository.GetUserSolvings();
+            return View(data);
+        }
+
+        public async Task<IActionResult> ShowCheckedExercise(int SolvingId)
+        {
+            var data = await exerciseRepository.GetSolvingById(SolvingId);
+            return View(data);
+        }
+
+        [HttpGet]
+        [Route("zadanie/{SolvingId}/rozwiazanie")]
+        public async Task<IActionResult> SolveTheExercise(int SolvingId)
+        {
+            SolvedExerciseVM solvedExerciseVM = new SolvedExerciseVM();
+            solvedExerciseVM.Solving = await exerciseRepository.GetSolvingById(SolvingId);
+            return View(solvedExerciseVM);
+        }
+
+        [HttpPost]
+        [Route("zadanie/{SolvingId}/rozwiazanie")]
+        public async Task<IActionResult> SolveTheExercise(SolvedExerciseVM solvedExerciseVM, int SolvingId)
+        {
+            if (ModelState.IsValid)
+            {
+                await exerciseRepository.ReceiveSolvedExercise(solvedExerciseVM, SolvingId);
+                return RedirectToAction(nameof(ShowAssignedExercises));
+            }
+            return RedirectToAction(nameof(ShowAssignedExercises));
+        }
+
+        public async Task<IActionResult> ShowExercisesToCheck()
+        {
+            var data = await exerciseRepository.ShowExercisesToCheck();
+            return View(data);
+        }
+
+        [HttpGet]
+        [Route("zadanie/{SolvingId}/sprawdzanie")]
+        public async Task<IActionResult> CheckTheExercise(int SolvingId)
+        {
+            CheckTheExerciseVM checkTheExerciseVM = new CheckTheExerciseVM();
+            checkTheExerciseVM.Solving = await exerciseRepository.GetSolvingById(SolvingId);
+            return View(checkTheExerciseVM);
+        }
+
+        [HttpPost]
+        [Route("zadanie/{SolvingId}/sprawdzanie")]
+        public async Task<IActionResult> CheckTheExercise(CheckTheExerciseVM checkTheExerciseVM, int SolvingId)
+        {
+            if (ModelState.IsValid)
+            {
+                await exerciseRepository.ProcessCheckedExercise(checkTheExerciseVM, SolvingId);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ShowCheckedExercises()
+        {
+            var data = await exerciseRepository.ShowCheckedExercises();
+            return View(data);
+        }
+
         public async Task<IActionResult> Index()
         {
             var data = await exerciseRepository.GetUserExercises();

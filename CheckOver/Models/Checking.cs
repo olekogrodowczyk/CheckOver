@@ -22,7 +22,10 @@ namespace CheckOver.Models
 
         public virtual ApplicationUser Checker { get; set; }
         public string Remarks { get; set; }
+
+        [Display(Name = "Punkty")]
         public int Points { get; set; }
+
         public DateTime CreatedAt { get; set; }
     }
 }

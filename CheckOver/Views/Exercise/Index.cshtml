@@ -17,7 +17,6 @@
                     </div>
                     <div class="card-body">
                         <p>Data utworzenia: @item.CreatedAt</p>
-                        <p>Data oddania: @item.DeadLine</p>
                         <h6 class="card-text mt-3">@item.Description.Substring(0, Math.Min(item.Description.Length, 200)) ..</h6>
                         <div class="btn-group mt-3" role="group" aria-label="Buttons">
                             <a asp-controller="Exercise" asp-action="AssignExercise" asp-route-Exerciseid="@item.ExerciseId" class="btn btn-primary mr-5">Przydziel zadanie</a>

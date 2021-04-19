@@ -18,7 +18,8 @@ namespace CheckOver.Models
         public virtual Exercise Exercise { get; set; }
         public string Status { get; set; }
         public string ProgrammingLanguage { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string Answer { get; set; }
 
         [ForeignKey("Assignment")]
         public int AssignmentId { get; set; }

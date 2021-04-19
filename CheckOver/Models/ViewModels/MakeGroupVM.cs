@@ -10,7 +10,7 @@ namespace CheckOver.Models
     public class MakeGroupVM
     {
         [Required]
-        [StringLength(30, MinimumLength = 5, ErrorMessage = "Nazwa grupy musi mieć minimalnie 5 znaków.")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Nazwa grupy musi mieć minimalnie 5 znaków.")]
         [Display(Name = "Nazwa")]
         public string Name { get; set; }
 

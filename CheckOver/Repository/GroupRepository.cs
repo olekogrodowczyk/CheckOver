@@ -88,7 +88,7 @@ namespace CheckOver.Repository
                 CreatedAt = DateTime.Now,
                 CoverImageUrl = url
             };
-            var newRole = context.Roles.FirstOrDefault(x => x.Name == "Creator");
+            var newRole = context.Roles.FirstOrDefault(x => x.Name == "Założyciel");
             var newAssignment = new Assignment()
             {
                 User = User,

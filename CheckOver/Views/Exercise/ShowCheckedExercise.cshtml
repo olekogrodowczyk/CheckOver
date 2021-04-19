@@ -1,0 +1,67 @@
+﻿@model Solving
+@{
+    ViewData["Title"] = "CheckTheExercise";
+}
+
+<div class="row p-l-50">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-6 p-0">
+                        <h2 class="font-weight-bold">@Model.Exercise.Title</h2>
+                    </div>
+                    <div class="col-6 p-0">
+                        <h2 class="float-right font-weight-bold mr-3">@Model.Exercise.MaxPoints pkt</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h4 class="mt-3 font-weight-bold">@Model.Assignment.Group.Name</h4>
+                <h5 class="font-weight-bold mt-4">Termin zamknięcia zadania: @Model.Exercise.DeadLine</h5>
+                <p class="mt-4 mb-3 font-weight-bold">@Model.Exercise.Description</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-6" style="display: flex">
+        <div class="card" style="width:100%; align-self:flex-end;">
+            <div class="card-header">
+                <h3 class="mb-3">Uwagi:</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <textarea id="editor">
+            @Model.Answer
+            </textarea>
+    </div>
+    <div class="col-6">
+        <textarea id="editor2">
+            @Model.Checking.Remarks
+            </textarea>
+        <label asp-for="@Model.Checking.Points" class="form-label mt-2"></label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="@Model.Checking.Points" readonly />
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#editor'))
+            .then(editor => {
+                console.log(editor);
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor.create(document.querySelector('#editor2'))
+            .then(editor => {
+                console.log(editor);
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            }).catch(error => {
+                console.error(error);
+            });
+    </script>
+}

@@ -31,7 +31,7 @@ namespace CheckOver.Repository
                 .FirstOrDefaultAsync(x => x.User == receiver && x.GroupId == id);
             var invitationTmp = await context.Invitations
                 .FirstOrDefaultAsync(x => x.GroupId == id && x.Receiver == receiver);
-
+            var role = await context.Roles.FirstOrDefaultAsync(x => x.Name == invitationVM.Role);
             if (sender == receiver) { return "Nie możesz wysłać zaproszenia do samego siebie."; }
             if (receiver == null) { return "Nie znaleziono użytkownika z podanem adresem E-mail."; }
             if (assignmentTmp != null) { return "Zapraszany użytkownik już należy do tej grupy."; }
@@ -44,7 +44,8 @@ namespace CheckOver.Repository
                 Status = "Oczekujące",
                 Group = group,
                 CreatedAt = DateTime.Now,
-                Role = context.Roles.FirstOrDefault(x => x.Name == "Creator")
+                Role = role,
+                RoleId = role.RoleId
             };
             await context.Invitations.AddAsync(newInvitation);
             await context.SaveChangesAsync();

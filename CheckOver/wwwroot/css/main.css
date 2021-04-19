@@ -6,6 +6,10 @@
     src: url('../fonts/poppins/Poppins-Regular.ttf');
 }
 
+.ck-editor__editable {
+    min-height: 450px;
+}
+
 @font-face {
     font-family: Poppins-Medium;
     src: url('../fonts/poppins/Poppins-Medium.ttf');

@@ -13,6 +13,18 @@ namespace CheckOver.Repository
 
         int function();
 
+        Task<Solving> GetSolvingById(int SolvingId);
+
         Task<List<Exercise>> GetUserExercises();
+
+        Task<List<Solving>> GetUserSolvings();
+
+        Task ProcessCheckedExercise(CheckTheExerciseVM checkTheExerciseVM, int SolvingId);
+
+        Task ReceiveSolvedExercise(SolvedExerciseVM solvedExerciseVM, int solvingId);
+
+        Task<List<Solving>> ShowCheckedExercises();
+
+        Task<List<Solving>> ShowExercisesToCheck();
     }
 }

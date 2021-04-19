@@ -11,7 +11,14 @@
                 <input asp-for="Email" id="first-name" class="input100" placeholder="Nazwa">
                 <span class="focus-input100" style=""></span>
             </div>
-            <div class="container-login100-form-btn">
+            <label asp-for="Role"></label>
+            <select asp-for="Role" class="form-control">
+                <option>Wybierz rolę użytkownika</option>
+                <option>Koordynator</option>
+                <option>Sprawdzający</option>
+                <option>Uczeń</option>
+            </select>
+            <div class="container-login100-form-btn mt-3">
                 <button class="login100-form-btn">
                     Zaproś użytkownika
                 </button>

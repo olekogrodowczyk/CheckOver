@@ -16,7 +16,7 @@ namespace CheckOver.Models.ViewModels
         [Required]
         [Display(Name = "Zadanie")]
         [MinLength(10)]
-        [MaxLength(2000)]
+        [MaxLength(3000)]
         public string Description { get; set; }
 
         [Required]

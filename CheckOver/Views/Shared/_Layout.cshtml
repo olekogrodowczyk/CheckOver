@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>SignIn</title>
+    <title>Zaloguj się</title>
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
@@ -28,11 +28,11 @@
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">CheckOver</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
+            <div class="collapse navbar-collapse bg-dark" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto">
                     @if (_signInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
@@ -53,16 +53,24 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Exercise" asp-action="AddExercise">Dodaj zadanie</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Exercise" asp-action="ShowAssignedExercises">Przydzielone zadania</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Exercise" asp-action="ShowExercisesToCheck">Zadania do sprawdzenia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Exercise" asp-action="ShowCheckedExercises">Sprawdzone zadania</a>
+                        </li>
                     }
                 </ul>
-                <ul class="navbar nav ml-auto" id="navbarNavDropdown">
+                <ul class="navbar-nav ml-auto">
                     @await Html.PartialAsync("_LoginInfo")
                 </ul>
             </div>
         </nav>
     </div>
-    <div class="container-fluid" style="padding-bottom: 100px">
+    <div class="container-fluid" style="padding-bottom: 100px; padding-top:50px">
         @RenderBody()
     </div>
     <footer class="bg-light text-center text-lg-start fixed-bottom footer text-white">
@@ -78,6 +86,7 @@
     <script src="~/vendor/select2/select2.min.js"></script>
     <script src="~/lib/jqueryui/jquery-ui.js"></script>
     <script src="~/lib/moment.js/moment.js"></script>
+
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
