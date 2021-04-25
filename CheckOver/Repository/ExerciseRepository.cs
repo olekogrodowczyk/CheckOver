@@ -23,7 +23,7 @@ namespace CheckOver.Repository
             this.groupRepository = groupRepository;
         }
 
-        public async Task<int> AddExercise(MakeExerciseVM makeExerciseVM)
+        public async Task<int> AddExercise(MakeOrUpdateExerciseVM makeExerciseVM)
         {
             var userId = userService.GetUserId();
             var User = context.Users.FirstOrDefault(x => x.Id == userId);
@@ -35,7 +35,6 @@ namespace CheckOver.Repository
                 MaxPoints = makeExerciseVM.MaxPoints,
                 Creator = User,
                 CreatorId = userId,
-                DeadLine = DateTime.ParseExact(makeExerciseVM.DeadLineString, "dd-MM-yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture)
             };
             await context.Exercises.AddAsync(newExercise);
             await context.SaveChangesAsync();
@@ -47,28 +46,34 @@ namespace CheckOver.Repository
             var userId = userService.GetUserId();
             var User = context.Users.FirstOrDefault(x => x.Id == userId);
             var exercises = await context.Exercises
-                .Include(x => x.Creator).Where(x => x.CreatorId == userId)
+                .Include(x => x.Creator)
+                .Where(x => x.CreatorId == userId)
                 .ToListAsync();
             return exercises;
         }
 
-        public async Task AssignExerciseToUsers(int GroupId, int ExerciseId)
+        public async Task AssignExerciseToUsers(int GroupId, int ExerciseId, AssignExerciseVM assignExerciseVM)
         {
             var assignments = await groupRepository.getMembers(GroupId);
             var exercise = await context.Exercises.FirstOrDefaultAsync(x => x.ExerciseId == ExerciseId);
             foreach (var item in assignments)
             {
-                var newSolving = new Solving()
+                if (userService.CheckIfUserHasPermission("Wykonanie zadania", GroupId, item.UserId) == true)
                 {
-                    AssignmentId = item.AssignmentId,
-                    Status = "Do wykonania",
-                    CreatedAt = null,
-                    ProgrammingLanguage = "Not now",
-                    Exercise = exercise,
-                    ExerciseId = ExerciseId
-                };
-                await context.Solvings.AddAsync(newSolving);
-                await context.SaveChangesAsync();
+                    var newSolving = new Solving()
+                    {
+                        AssignmentId = item.AssignmentId,
+                        Status = "Do wykonania",
+                        CreatedAt = DateTime.Now,
+                        ProgrammingLanguage = "Not now",
+                        Exercise = exercise,
+                        ExerciseId = ExerciseId,
+                        DeadLine = DateTime.ParseExact(assignExerciseVM.DeadLineString, "dd-MM-yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture),
+                        SentAt = DateTime.MinValue
+                    };
+                    await context.Solvings.AddAsync(newSolving);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
@@ -83,6 +88,7 @@ namespace CheckOver.Repository
             {
                 solvings.AddRange(context.Solvings
                     .Include(x => x.Exercise)
+                    .ThenInclude(x => x.Creator)
                     .Include(x => x.Checking)
                     .ThenInclude(x => x.Checker)
                     .Include(x => x.Assignment)
@@ -106,7 +112,7 @@ namespace CheckOver.Repository
         {
             var solving = await context.Solvings.FirstOrDefaultAsync(x => x.SolvingId == solvingId);
             solving.Status = "Do sprawdzenia";
-            solving.CreatedAt = DateTime.Now;
+            solving.SentAt = DateTime.Now;
             solving.Answer = solvedExerciseVM.Answer;
             await context.SaveChangesAsync();
         }
@@ -122,7 +128,7 @@ namespace CheckOver.Repository
                 .Where(x => x.UserId == userId)
                 .Select(x => x.Group)
                 .SelectMany(x => x.Assignments)
-                .Where(x => x.Role.Name == "Creator" && x.UserId != userId)
+                .Where(x => x.Role.Name == "Uczeń" && x.UserId != userId)
                 .Include(x => x.Solvings)
                 .SelectMany(x => x.Solvings)
                 .Where(x => x.Status == "Do sprawdzenia")
@@ -134,7 +140,15 @@ namespace CheckOver.Repository
                 .Include(x => x.Exercise)
                 .ToListAsync();
 
-            return solvings;
+            var solvingsToReturn = new List<Solving>();
+            foreach (var item in solvings)
+            {
+                if (userService.CheckIfUserHasPermission("Sprawdzanie zadania", item.Assignment.GroupId) == true)
+                {
+                    solvingsToReturn.Add(item);
+                }
+            }
+            return solvingsToReturn;
         }
 
         public async Task ProcessCheckedExercise(CheckTheExerciseVM checkTheExerciseVM, int SolvingId)
@@ -170,6 +184,31 @@ namespace CheckOver.Repository
                 .Where(x => x.Status == "Sprawdzone" && x.Assignment.UserId == userId)
                 .ToListAsync();
             return solvings;
+        }
+
+        public async Task<Exercise> GetExerciseById(int exerciseId)
+        {
+            var exercise = await context.Exercises.FirstOrDefaultAsync(x => x.ExerciseId == exerciseId);
+            return exercise;
+        }
+
+        public async Task UpdateExercise(int exerciseId, MakeOrUpdateExerciseVM makeOrUpdateExerciseVM)
+        {
+            var exercise = await GetExerciseById(exerciseId);
+            exercise.Title = makeOrUpdateExerciseVM.Title;
+            exercise.Description = makeOrUpdateExerciseVM.Description;
+            exercise.MaxPoints = makeOrUpdateExerciseVM.MaxPoints;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task DeleteExercise(int ExerciseId)
+        {
+            var exercise = await GetExerciseById(ExerciseId);
+            if (exercise != null)
+            {
+                context.Exercises.Remove(exercise);
+                await context.SaveChangesAsync();
+            }
         }
 
         public int function()

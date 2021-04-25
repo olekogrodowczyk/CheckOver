@@ -10,6 +10,10 @@ namespace CheckOver.Repository
 
         Task<int> ApplyGroupSettings(GroupSettingsVM groupSettings, int id);
 
+        Task<bool> DeleteUserFromGroup(int groupId, string userId);
+
+        Task<bool> DeteleGroup(int groupId);
+
         Task<List<Group>> GetAllGroups();
 
         Task<Group> GetGroupById(int id);

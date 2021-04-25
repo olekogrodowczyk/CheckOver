@@ -14,5 +14,7 @@ namespace CheckOver.Repository
         Task<List<Invitation>> GetReceivedInvitations();
 
         Task<List<Invitation>> GetSentInvitations();
+
+        Task<int> RejectInvitation(int id);
     }
 }

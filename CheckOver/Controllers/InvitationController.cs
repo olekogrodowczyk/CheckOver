@@ -71,6 +71,16 @@ namespace CheckOver.Controllers
             return RedirectToAction(nameof(GetAllReceived), new { isSuccess = false });
         }
 
+        public async Task<IActionResult> RejectInvitation(int id)
+        {
+            int result = await invitationRepository.RejectInvitation(id);
+            if (result > 0)
+            {
+                return RedirectToAction(nameof(GetAllReceived), new { isSuccess = true, AssignmentId = result });
+            }
+            return RedirectToAction(nameof(GetAllReceived), new { isSuccess = false });
+        }
+
         public IActionResult Index()
         {
             return View();

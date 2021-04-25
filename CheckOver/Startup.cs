@@ -67,8 +67,10 @@ namespace CheckOver
 
             app.UseRouting();
             app.UseStaticFiles();
-            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            app.UseAuthentication();
             //dbInitializer.Initialize();
             app.UseEndpoints(endpoints =>
             {

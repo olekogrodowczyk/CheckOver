@@ -7,11 +7,15 @@ namespace CheckOver.Repository
 {
     public interface IExerciseRepository
     {
-        Task<int> AddExercise(MakeExerciseVM makeExerciseVM);
+        Task<int> AddExercise(MakeOrUpdateExerciseVM makeExerciseVM);
 
-        Task AssignExerciseToUsers(int GroupId, int ExerciseId);
+        Task AssignExerciseToUsers(int GroupId, int ExerciseId, AssignExerciseVM assignExerciseVM);
+
+        Task DeleteExercise(int ExerciseId);
 
         int function();
+
+        Task<Exercise> GetExerciseById(int ExerciseId);
 
         Task<Solving> GetSolvingById(int SolvingId);
 
@@ -26,5 +30,7 @@ namespace CheckOver.Repository
         Task<List<Solving>> ShowCheckedExercises();
 
         Task<List<Solving>> ShowExercisesToCheck();
+
+        Task UpdateExercise(int exerciseId, MakeOrUpdateExerciseVM makeOrUpdateExerciseVM);
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckOver.Models.ViewModels
 {
-    public class MakeExerciseVM
+    public class MakeOrUpdateExerciseVM
     {
         [Required]
         [Display(Name = "Tytuł")]
@@ -23,8 +23,6 @@ namespace CheckOver.Models.ViewModels
         [Display(Name = "Maksymalna liczba punktów")]
         public int MaxPoints { get; set; }
 
-        [Required]
-        [Display(Name = "Czas ukończenia")]
-        public string DeadLineString { get; set; }
+        public Exercise Exercise { get; set; }
     }
 }

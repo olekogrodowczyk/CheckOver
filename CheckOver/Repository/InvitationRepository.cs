@@ -73,6 +73,7 @@ namespace CheckOver.Repository
                 .Include(x => x.Receiver)
                 .Include(x => x.Role)
                 .Include(x => x.Group)
+                .ThenInclude(x => x.Creator)
                 .Where(x => x.Receiver == User).ToListAsync();
         }
 
@@ -98,6 +99,18 @@ namespace CheckOver.Repository
                 invitation.Status = "Zaakceptowane";
                 await context.SaveChangesAsync();
                 return newAssignment.AssignmentId;
+            }
+            return 0;
+        }
+
+        public async Task<int> RejectInvitation(int id)
+        {
+            var invitation = await context.Invitations.FirstOrDefaultAsync(x => x.InvitationId == id);
+            if (invitation != null)
+            {
+                invitation.Status = "Odrzucone";
+                await context.SaveChangesAsync();
+                return invitation.InvitationId;
             }
             return 0;
         }

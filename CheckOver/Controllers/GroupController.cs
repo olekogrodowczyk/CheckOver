@@ -3,6 +3,7 @@ using CheckOver.Models;
 using CheckOver.Models.ViewModels;
 using CheckOver.Repository;
 using CheckOver.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -99,6 +100,25 @@ namespace CheckOver.Controllers
                 return RedirectToAction("GetUsersGroups", "Group");
             }
             return View();
+        }
+
+        public async Task<IActionResult> DeleteUser(int groupId, string userId)
+        {
+            bool ifSucceed = await groupRepository.DeleteUserFromGroup(groupId, userId);
+            return RedirectToAction("GetGroup", new { id = groupId });
+        }
+
+        public async Task<IActionResult> LeaveGroup(int groupId)
+        {
+            var userId = _userService.GetUserId();
+            bool ifSucceed = await groupRepository.DeleteUserFromGroup(groupId, userId);
+            return RedirectToAction("GetUsersGroups");
+        }
+
+        public async Task<IActionResult> DeleteGroup(int groupId)
+        {
+            bool ifSucceed = await groupRepository.DeteleGroup(groupId);
+            return RedirectToAction("GetUsersGroups");
         }
     }
 }

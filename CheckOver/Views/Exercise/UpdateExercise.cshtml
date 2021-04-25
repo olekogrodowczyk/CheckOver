@@ -3,9 +3,9 @@
 <div class="container-login100">
     <div class="wrap-login100">
         <div class="login100-more" style="background-image: url('images/group.jpg');"></div>
-        <form asp-action="AddExercise" enctype="multipart/form-data" class="login100-form validate-form">
+        <form asp-action="UpdateExercise" enctype="multipart/form-data" class="login100-form validate-form">
             <span class=" login100-form-title p-b-34 text-dark">
-                Dodawanie zadania
+                Edytowanie zadania
             </span>
             <div class="col-12 mb-4">
                 <label asp-for="Title" class="form-label"></label>
@@ -19,12 +19,12 @@
             </div>
             <div class="col-12 mb-4">
                 <label asp-for="MaxPoints" class="form-label"></label>
-                <input asp-for="MaxPoints" type="text" class="form-control" id="inputAddress" />
+                <input asp-for="MaxPoints" type="text" class="form-control" />
                 <span asp-validation-for="MaxPoints" class="text-danger"></span>
             </div>
             <div class="container-login100-form-btn mt-4">
                 <button class="login100-form-btn">
-                    Dodaj zadanie
+                    Edytuj zadanie
                 </button>
             </div>
         </form>

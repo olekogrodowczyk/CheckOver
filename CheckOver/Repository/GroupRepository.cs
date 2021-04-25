@@ -143,5 +143,23 @@ namespace CheckOver.Repository
             }
             return 0;
         }
+
+        public async Task<bool> DeleteUserFromGroup(int groupId, string userId)
+        {
+            var assignment = await context.Assignments.FirstOrDefaultAsync(x => x.UserId == userId && x.GroupId == groupId);
+            context.Assignments.Remove(assignment);
+            await context.SaveChangesAsync();
+            return assignment == null ? false : true;
+        }
+
+        public async Task<bool> DeteleGroup(int groupId)
+        {
+            var assignments = await context.Assignments.Where(x => x.GroupId == groupId).ToListAsync();
+            var group = await context.Groups.FirstOrDefaultAsync(x => x.GroupId == groupId);
+            context.Assignments.RemoveRange(assignments);
+            context.Groups.Remove(group);
+            await context.SaveChangesAsync();
+            return assignments == null && group == null ? false : true;
+        }
     }
 }

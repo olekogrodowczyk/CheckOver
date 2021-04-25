@@ -10,7 +10,7 @@
     {
         <div class="btn-group">
             <a asp-controller="Invitation" asp-action="AcceptInvitation" asp-route-id="@Model.InvitationId" class="btn btn-primary mr-4">Zaakceptuj</a>
-            <a class="btn btn-primary">Odrzuć</a>
+            <a asp-controller="Invitation" asp-action="RejectInvitation" asp-route-id="@Model.InvitationId" class="btn btn-primary">Odrzuć</a>
         </div>
     }
     else

@@ -26,9 +26,29 @@ namespace CheckOver.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddExercise(MakeExerciseVM makeExerciseVM)
+        public async Task<IActionResult> AddExercise(MakeOrUpdateExerciseVM makeExerciseVM)
         {
             int id = await exerciseRepository.AddExercise(makeExerciseVM);
+            return RedirectToAction("Index");
+        }
+
+        [Route("zadanie/edytuj/{ExerciseId}")]
+        [HttpGet]
+        public async Task<IActionResult> UpdateExercise(int ExerciseId)
+        {
+            MakeOrUpdateExerciseVM makeOrUpdateExerciseVM = new MakeOrUpdateExerciseVM();
+            var exercise = await exerciseRepository.GetExerciseById(ExerciseId);
+            makeOrUpdateExerciseVM.Description = exercise.Description;
+            makeOrUpdateExerciseVM.Title = exercise.Title;
+            makeOrUpdateExerciseVM.MaxPoints = exercise.MaxPoints;
+            return View(makeOrUpdateExerciseVM);
+        }
+
+        [Route("zadanie/edytuj/{ExerciseId}")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateExercise(int ExerciseId, MakeOrUpdateExerciseVM makeOrUpdateExerciseVM)
+        {
+            await exerciseRepository.UpdateExercise(ExerciseId, makeOrUpdateExerciseVM);
             return RedirectToAction("Index");
         }
 
@@ -39,9 +59,18 @@ namespace CheckOver.Controllers
             return View(groups);
         }
 
-        public async Task<IActionResult> AssignExerciseToUsers(int GroupId, int ExerciseId)
+        [HttpGet]
+        [Route("zadanie/przypisz/{ExerciseId}/{GroupId}")]
+        public IActionResult AssignExerciseToUsers(int GroupId, int ExerciseId)
         {
-            await exerciseRepository.AssignExerciseToUsers(GroupId, ExerciseId);
+            return View();
+        }
+
+        [HttpPost]
+        [Route("zadanie/przypisz/{ExerciseId}/{GroupId}")]
+        public async Task<IActionResult> AssignExerciseToUsers(int GroupId, int ExerciseId, AssignExerciseVM assignExerciseVM)
+        {
+            await exerciseRepository.AssignExerciseToUsers(GroupId, ExerciseId, assignExerciseVM);
             return RedirectToAction("Index");
         }
 
@@ -114,6 +143,12 @@ namespace CheckOver.Controllers
         {
             var data = await exerciseRepository.GetUserExercises();
             return View(data);
+        }
+
+        public async Task<IActionResult> DeleteExercise(int ExerciseId)
+        {
+            await exerciseRepository.DeleteExercise(ExerciseId);
+            return RedirectToAction("Index");
         }
     }
 }

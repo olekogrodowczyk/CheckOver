@@ -7,24 +7,25 @@
     @{
         foreach (var item in Model)
         {
-            <div class="col-3 mt-2 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <h4 class="col-8">@item.Title</h4>
-                            <h4 class="text-right col-4">@item.MaxPoints pkt</h4>
-                        </div>
+        <div class="col-3 mt-2 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <h4 class="col-8">@item.Title</h4>
+                        <h4 class="text-right col-4">@item.MaxPoints pkt</h4>
                     </div>
-                    <div class="card-body">
-                        <p>Data utworzenia: @item.CreatedAt</p>
-                        <h6 class="card-text mt-3">@item.Description.Substring(0, Math.Min(item.Description.Length, 200)) ..</h6>
-                        <div class="btn-group mt-3" role="group" aria-label="Buttons">
-                            <a asp-controller="Exercise" asp-action="AssignExercise" asp-route-Exerciseid="@item.ExerciseId" class="btn btn-primary mr-5">Przydziel zadanie</a>
-                            <a href="#" class="btn btn-primary">Usuń zadanie</a>
-                        </div>
+                </div>
+                <div class="card-body">
+                    <p>Data utworzenia: @item.CreatedAt</p>
+                    <h6 class="card-text mt-3">@item.Description.Substring(0, Math.Min(item.Description.Length, 200)) ..</h6>
+                    <div class="btn-group mt-3" role="group" aria-label="Buttons">
+                        <a asp-controller="Exercise" asp-action="AssignExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary">Przydziel</a>
+                        <a asp-controller="Exercise" asp-action="UpdateExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary">Edytuj</a>
+                        <a asp-controller="Exercise" asp-action="DeleteExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary">Usuń</a>
                     </div>
                 </div>
             </div>
+        </div>
 
         }
     }

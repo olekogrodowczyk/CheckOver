@@ -6,7 +6,7 @@
 <div class="row p-4">
     @foreach (var item in Model)
     {
-        TimeSpan span = item.Exercise.DeadLine - DateTime.Now;
+        TimeSpan span = item.DeadLine - DateTime.Now;
         <div class="col-6 mb-5">
             <div class="card text-center">
                 <div class="card-header">
@@ -35,10 +35,21 @@
                     }
                 </div>
                 <div class="card-footer text-muted">
-                    <p>
-                        Utworzono: @item.Exercise.CreatedAt &nbsp;&nbsp;&nbsp;
-                        @(item.Status=="Wysłane" ? "Wysłano: " + item.CreatedAt : "" )
-                    </p>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>
+                                @(item.Status=="Do sprawdzenia" ? "Wysłano: " + item.SentAt : "Zadano: " + item.CreatedAt )
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            <p>Zadano przez: @(item.Exercise.Creator.FirstName) @(item.Exercise.Creator.LastName)</p>
+                        </div>
+                        <div class="col-4">
+                            <p>
+                                DeadLine: @(item.DeadLine)
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
