@@ -40,7 +40,7 @@ namespace CheckOver.Controllers
                     }
                     return View(userModel);
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("SignIn", "Account");
             }
             return View(userModel);
         }
@@ -61,7 +61,7 @@ namespace CheckOver.Controllers
                 var result = await _accountRepository.PasswordSignInAsync(signInModel);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Exercise");
                 }
                 else
                 {

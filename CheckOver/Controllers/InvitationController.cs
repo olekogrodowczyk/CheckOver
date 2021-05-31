@@ -66,9 +66,9 @@ namespace CheckOver.Controllers
             int result = await invitationRepository.AcceptInvitation(id);
             if (result > 0)
             {
-                return RedirectToAction(nameof(GetAllReceived), new { isSuccess = true, AssignmentId = result });
+                return RedirectToAction(nameof(Index), new { isSuccess = true, AssignmentId = result });
             }
-            return RedirectToAction(nameof(GetAllReceived), new { isSuccess = false });
+            return RedirectToAction(nameof(Index), new { isSuccess = false });
         }
 
         public async Task<IActionResult> RejectInvitation(int id)
@@ -76,14 +76,17 @@ namespace CheckOver.Controllers
             int result = await invitationRepository.RejectInvitation(id);
             if (result > 0)
             {
-                return RedirectToAction(nameof(GetAllReceived), new { isSuccess = true, AssignmentId = result });
+                return RedirectToAction(nameof(Index), new { isSuccess = true, AssignmentId = result });
             }
-            return RedirectToAction(nameof(GetAllReceived), new { isSuccess = false });
+            return RedirectToAction(nameof(Index), new { isSuccess = false });
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            InvitationsVM invitationsVM = new InvitationsVM();
+            invitationsVM.ReceivedInvitations = await invitationRepository.GetReceivedInvitations();
+            invitationsVM.SentInvitations = await invitationRepository.GetSentInvitations();
+            return View(invitationsVM);
         }
     }
 }

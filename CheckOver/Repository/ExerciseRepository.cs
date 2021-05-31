@@ -93,7 +93,7 @@ namespace CheckOver.Repository
                     .ThenInclude(x => x.Checker)
                     .Include(x => x.Assignment)
                     .ThenInclude(x => x.Group)
-                    .Where(x => x.AssignmentId == item.AssignmentId));
+                    .Where(x => x.AssignmentId == item.AssignmentId && x.Status == "Do wykonania"));
             }
             return solvings;
         }
@@ -102,9 +102,12 @@ namespace CheckOver.Repository
         {
             return await context.Solvings
                 .Include(x => x.Checking)
+                .ThenInclude(x => x.Checker)
                 .Include(x => x.Exercise)
                 .Include(x => x.Assignment)
                 .ThenInclude(x => x.Group)
+                .Include(x => x.Assignment)
+                .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(x => x.SolvingId == SolvingId);
         }
 

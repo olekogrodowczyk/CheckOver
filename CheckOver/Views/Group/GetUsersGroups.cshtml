@@ -3,20 +3,32 @@
     ViewData["Title"] = "GetAllGroups";
 }
 
-<div class="row p-4">
-    @{
-        foreach (var item in Model)
-        {
-            <div class="col-sm-3 mt-3">
-                <div class="card" style="width: 20rem;">
-                    <img class="card-img-top" src="https://checkoverblob.blob.core.windows.net/checkoverblob/@item.CoverImageUrl" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">Założyciel: @item.Creator.FirstName @item.Creator.LastName</p>
-                        <a asp-controller="Group" asp-action="GetGroup" asp-route-id="@item.GroupId" class="btn btn-primary">Przejdź do grupy</a>
-                    </div>
-                </div>
+<section id="grupy">
+    <div class="wrapper">
+        <header>
+            <div class="tytul">
+                <h3>Twoje grupy</h3>
             </div>
-        }
-    }
-</div>
+            <div class="container-btn=left">
+                <a class="btn btn-primary" href="/tworzenie-grupy">UTWÓRZ NOWĄ</a>
+            </div>
+        </header>
+        <main class="page-body">
+            <div class="container">
+                @foreach (var item in Model)
+                {
+                    <a asp-controller="Group" asp-action="GetGroup" asp-route-id="@item.GroupId">
+                        <div class="item_block">
+                            <div class="container_img">
+                                <img style="height:110px; width:260px;"
+                                     src="@item.CoverImageUrl"
+                                     alt="Foto">
+                            </div>
+                            <p>@item.Name</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </main>
+    </div>
+</section>

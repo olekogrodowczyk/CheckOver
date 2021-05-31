@@ -61,9 +61,11 @@ namespace CheckOver.Controllers
 
         [HttpGet]
         [Route("zadanie/przypisz/{ExerciseId}/{GroupId}")]
-        public IActionResult AssignExerciseToUsers(int GroupId, int ExerciseId)
+        public async Task<IActionResult> AssignExerciseToUsers(int GroupId, int ExerciseId)
         {
-            return View();
+            AssignExerciseVM assignExerciseVM = new AssignExerciseVM();
+            assignExerciseVM.Exercise = await exerciseRepository.GetExerciseById(ExerciseId);
+            return View(assignExerciseVM);
         }
 
         [HttpPost]
@@ -102,9 +104,9 @@ namespace CheckOver.Controllers
             if (ModelState.IsValid)
             {
                 await exerciseRepository.ReceiveSolvedExercise(solvedExerciseVM, SolvingId);
-                return RedirectToAction(nameof(ShowAssignedExercises));
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(ShowAssignedExercises));
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> ShowExercisesToCheck()
@@ -133,22 +135,32 @@ namespace CheckOver.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ShowCheckedExercises()
+        public async Task<IActionResult> ChooseExercise(int GroupId)
         {
-            var data = await exerciseRepository.ShowCheckedExercises();
+            ViewBag.GroupId = GroupId;
+            var data = await exerciseRepository.GetUserExercises();
             return View(data);
         }
 
         public async Task<IActionResult> Index()
         {
-            var data = await exerciseRepository.GetUserExercises();
-            return View(data);
+            SolvingsVM solvingsVM = new SolvingsVM();
+            solvingsVM.Checked = await exerciseRepository.ShowCheckedExercises();
+            solvingsVM.ToCheck = await exerciseRepository.ShowExercisesToCheck();
+            solvingsVM.ToSolve = await exerciseRepository.GetUserSolvings();
+            return View(solvingsVM);
         }
 
         public async Task<IActionResult> DeleteExercise(int ExerciseId)
         {
             await exerciseRepository.DeleteExercise(ExerciseId);
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> ShowCreatedExercises()
+        {
+            var data = await exerciseRepository.GetUserExercises();
+            return View(data);
         }
     }
 }

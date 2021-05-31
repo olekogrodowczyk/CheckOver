@@ -319,7 +319,7 @@ namespace CheckOver.Migrations
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DeadLine")
@@ -331,7 +331,7 @@ namespace CheckOver.Migrations
                     b.Property<string>("ProgrammingLanguage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("SentAt")
+                    b.Property<DateTime>("SentAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")

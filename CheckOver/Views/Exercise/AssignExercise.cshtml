@@ -3,20 +3,28 @@
     ViewData["Title"] = "Assign";
 }
 
-<div class="row p-4">
-    @{
-        foreach (var item in Model)
-        {
-            <div class="col-sm-3 mt-3">
-                <div class="card" style="width: 20rem;">
-                    <img class="card-img-top" src="https://checkoverblob.blob.core.windows.net/checkoverblob/@item.CoverImageUrl" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">Założyciel: @item.Creator.FirstName @item.Creator.LastName</p>
-                        <a asp-controller="Exercise" asp-action="AssignExerciseToUsers" asp-route-Groupid="@item.GroupId" asp-route-ExerciseId="@ViewBag.ExerciseId" class="btn btn-primary">Przejdź do grupy</a>
-                    </div>
-                </div>
+<section id="przydzielenie_zadania_grupa">
+    <div class="wrapper">
+        <header>
+            <div class="tytul">
+                <h3>Wybierz grupę</h3>
             </div>
-        }
-    }
-</div>
+        </header>
+        <main class="page-body">
+
+            <div class="container">
+                @foreach (var item in Model)
+                {
+                    <a asp-controller="Exercise" asp-action="AssignExerciseToUsers" asp-route-Groupid="@item.GroupId" asp-route-ExerciseId="@ViewBag.ExerciseId">
+                        <div class="item_block">
+                            <div class="container_img">
+                                <img src="~/@item.CoverImageUrl" alt="">
+                            </div>
+                            <p>Programowanie Python</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </main>
+    </div>
+</section>

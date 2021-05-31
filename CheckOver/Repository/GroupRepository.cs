@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using CheckOver.Models.ViewModels;
 
 namespace CheckOver.Repository
 {
@@ -41,6 +42,34 @@ namespace CheckOver.Repository
                 .FirstOrDefaultAsync(x => x.GroupId == groupId);
             var assignments = group.Assignments.ToList();
             return assignments;
+        }
+
+        public async Task<List<Assignment>> getSolvers(int groupId)
+        {
+            var assignments = await getMembers(groupId);
+            var list = new List<Assignment>();
+            foreach (var item in assignments)
+            {
+                if (userService.CheckIfUserHasPermission("Wykonanie zadania", item.GroupId, item.UserId))
+                {
+                    list.Add(item);
+                }
+            }
+            return list;
+        }
+
+        public async Task<List<Assignment>> getCheckers(int groupId)
+        {
+            var assignments = await getMembers(groupId);
+            var list = new List<Assignment>();
+            foreach (var item in assignments)
+            {
+                if (userService.CheckIfUserHasPermission("Sprawdzanie zadania", item.GroupId, item.UserId))
+                {
+                    list.Add(item);
+                }
+            }
+            return list;
         }
 
         public int GetUsers(int GroupId)
@@ -76,17 +105,20 @@ namespace CheckOver.Repository
         {
             var userId = userService.GetUserId();
             var User = context.Users.FirstOrDefault(x => x.Id == userId);
-            string url = "";
             if (makeGroupModel.CoverPhoto != null)
             {
-                url = await AddNewPhotoToServer(makeGroupModel.CoverPhoto, makeGroupModel.CoverImageUrl);
+                string folder = "group/cover/";
+                folder += Guid.NewGuid().ToString() + "_" + makeGroupModel.CoverPhoto.FileName;
+                makeGroupModel.CoverImageUrl = folder;
+                string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, folder);
+                await makeGroupModel.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
             }
             var newGroup = new Group()
             {
                 Creator = User,
                 Name = makeGroupModel.Name,
                 CreatedAt = DateTime.Now,
-                CoverImageUrl = url
+                CoverImageUrl = makeGroupModel.CoverImageUrl
             };
             var newRole = context.Roles.FirstOrDefault(x => x.Name == "Założyciel");
             var newAssignment = new Assignment()
@@ -126,24 +158,6 @@ namespace CheckOver.Repository
             return groups;
         }
 
-        public async Task<int> ApplyGroupSettings(GroupSettingsVM groupSettings, int id)
-        {
-            var result = context.Groups.SingleOrDefault(g => g.GroupId == id);
-            string url = "";
-            if (result != null)
-            {
-                if (groupSettings.CoverPhoto != null)
-                {
-                    url = await AddNewPhotoToServer(groupSettings.CoverPhoto, groupSettings.CoverImageUrl);
-                }
-                if (groupSettings.Name != null) { result.Name = groupSettings.Name; }
-                if (groupSettings.CoverPhoto != null) { result.CoverImageUrl = url; }
-                await context.SaveChangesAsync();
-                return id;
-            }
-            return 0;
-        }
-
         public async Task<bool> DeleteUserFromGroup(int groupId, string userId)
         {
             var assignment = await context.Assignments.FirstOrDefaultAsync(x => x.UserId == userId && x.GroupId == groupId);
@@ -160,6 +174,48 @@ namespace CheckOver.Repository
             context.Groups.Remove(group);
             await context.SaveChangesAsync();
             return assignments == null && group == null ? false : true;
+        }
+
+        public async Task ChangeRole(int groupId, string userId)
+        {
+            var assignment = await context.Assignments
+                .Include(x => x.Role)
+                .ThenInclude(x => x.RolePermissions)
+                .ThenInclude(x => x.Permission)
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.GroupId == groupId);
+            var Role = new Role();
+            if (assignment.Role.Name == "Sprawdzający")
+            {
+                Role = await context.Roles.FirstOrDefaultAsync(x => x.Name == "Uczeń");
+            }
+            else
+            {
+                Role = await context.Roles.FirstOrDefaultAsync(x => x.Name == "Sprawdzający");
+            }
+            assignment.Role = Role;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task ChangeGroupPhoto(int groupId, ChangeGroupPhotoVM changeGroupPhotoVM)
+        {
+            var group = await context.Groups.FirstOrDefaultAsync(x => x.GroupId == groupId);
+            if (changeGroupPhotoVM.CoverPhoto != null)
+            {
+                string folder = "group/cover/";
+                folder += Guid.NewGuid().ToString() + "_" + changeGroupPhotoVM.CoverPhoto.FileName;
+                changeGroupPhotoVM.CoverImageUrl = folder;
+                string serverFolder = Path.Combine(webHostEnvironment.WebRootPath, folder);
+                await changeGroupPhotoVM.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            }
+            group.CoverImageUrl = changeGroupPhotoVM.CoverImageUrl;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task ChangeGroupName(int groupId, ChangeGroupNameVM changeGroupNameVM)
+        {
+            var group = await context.Groups.FirstOrDefaultAsync(x => x.GroupId == groupId);
+            group.Name = changeGroupNameVM.Name;
+            await context.SaveChangesAsync();
         }
     }
 }

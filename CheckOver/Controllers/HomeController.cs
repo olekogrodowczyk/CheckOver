@@ -8,8 +8,9 @@ namespace CheckOver.Controllers
 {
     public class HomeController : Controller
     {
-        public ViewResult Index()
+        public IActionResult Index()
         {
+            //AutomaticChecker.Run();
             return View();
         }
     }

@@ -1,0 +1,79 @@
+﻿@model CheckOver.Models.ViewModels.GetGroupVM
+@inject CheckOver.Service.IUserService userService
+@{
+    ViewData["Title"] = "GroupSettings";
+}
+
+<section id="lista">
+    <div class="wrapper">
+        <header>
+            <div class="tytul">
+                <h3>Edycja grupy</h3>
+            </div>
+            <div class="container-btn-left ">
+                <a asp-controller="Group" asp-action="ChangeGroupPhoto" asp-route-groupId="@Model.Group.GroupId" class="btn-primary btn">ZMIEŃ ZDJĘCIE</a>
+                <a asp-controller="Group" asp-action="ChangeGroupName" asp-route-groupId="@Model.Group.GroupId" class="btn-primary btn">ZMIEŃ NAZWĘ</a>
+                @if (userService.CheckIfUserHasPermission("Usuwanie grupy", Model.Group.GroupId))
+                {
+                    <a asp-controller="Group" asp-action="DeleteGroup" asp-route-groupId="@Model.Group.GroupId" class="btn-primary btn">USUŃ</a>
+                }
+            </div>
+        </header>
+        <main class="page-body">
+            <h3>Rozwiązujący</h3>
+            <div class="aktywne">
+                @foreach (var item in Model.Solvers)
+                {
+                    <div class="item">
+                        <ul>
+                            <li>
+                                <h3>@item.User.FirstName @item.User.LastName</h3>
+                            </li>
+                            <li>
+                                <div class="container-btn">
+                                    @if (userService.CheckIfUserHasPermission("Usuwanie użytkowników", Model.Group.GroupId))
+                                    {
+                                        <a asp-controller="Group" asp-action="DeleteUser" asp-route-userId="@item.UserId" asp-route-groupId="@Model.Group.GroupId" class="btn btn-primary"> USUŃ </a>
+                                    }
+                                    @if (userService.CheckIfUserHasPermission("Zmiana roli", Model.Group.GroupId))
+                                    {
+                                        <a asp-controller="Group" asp-action="ChangeRole" asp-route-userId="@item.UserId" asp-route-groupId="@Model.Group.GroupId" class="btn btn-primary"> USTAW SPRAWDZAJĄCYM </a>
+                                    }
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+            <h3>Administracja</h3>
+            <div class="aktywne">
+                @foreach (var item in Model.Checkers)
+                {
+                    <div class="item">
+                        <ul>
+                            <li>
+                                <h3>@item.User.FirstName @item.User.LastName</h3>
+                            </li>
+                            <li>
+                                <div class="container-btn">
+                                    @if (item.Role.Name == "Sprawdzający" && userService.CheckIfUserHasPermission("Usuwanie użytkowników", Model.Group.GroupId))
+                                    {
+                                        <a asp-controller="Group" asp-action="DeleteUser" asp-route-userId="@item.UserId" asp-route-groupId="@Model.Group.GroupId" class="btn btn-primary"> USUŃ </a>
+                                    }
+                                    @if (item.Role.Name == "Sprawdzający" && userService.CheckIfUserHasPermission("Zmiana roli", Model.Group.GroupId))
+                                    {
+                                        <a asp-controller="Group" asp-action="ChangeRole" asp-route-userId="@item.UserId" asp-route-groupId="@Model.Group.GroupId" class="btn btn-primary"> USTAW ROWZWIĄZUJĄCYM </a>
+                                    }
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+
+            <div class="container-btn">
+                <a class="btn btn-primary" href="grupa.html">Wróć</a>
+            </div>
+        </main>
+    </div>
+</section>

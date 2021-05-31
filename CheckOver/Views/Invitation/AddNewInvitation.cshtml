@@ -1,30 +1,43 @@
 ﻿@model CheckOver.Models.ViewModels.InvitationVM
-<div class="container-login100">
-    <div class="wrap-login100">
-        <div class="login100-more" style="background: url('@Url.Content("~/images/invitation.jpg")');"></div>
-        <form asp-action="AddNewInvitation" class="login100-form validate-form">
-            <div class="m-t-5 m-b-5 text-danger" asp-validation-summary="All"></div>
-            <span class=" login100-form-title p-b-34 text-dark">
-                Tworzenie zaproszenia
-            </span>
-            <div style="width:100%" class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
-                <input asp-for="Email" id="first-name" class="input100" placeholder="Nazwa">
-                <span class="focus-input100" style=""></span>
-            </div>
-            <label asp-for="Role"></label>
-            <select asp-for="Role" class="form-control">
-                <option>Wybierz rolę użytkownika</option>
-                <option>Koordynator</option>
-                <option>Sprawdzający</option>
-                <option>Uczeń</option>
-            </select>
-            <div class="container-login100-form-btn mt-3">
-                <button class="login100-form-btn">
-                    Zaproś użytkownika
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
 
-<div id="dropDownSelect1"></div>
+<section id="logowanie">
+    <div class="wrapper">
+        <header class="center">
+            <div class="tytul">
+                <h3>Wysyłanie zaproszenia</h3>
+            </div>
+        </header>
+        <main class="page-body">
+            <div class="container">
+                <form asp-action="AddNewInvitation" method="post">
+                    <div asp-validation-summary="All">
+                        <ul>
+                            <li style="display:none"></li>
+                        </ul>
+                    </div>
+                    <div class="input-box">
+                        <span class="detail">
+                            E-mail
+                        </span>
+                        <input asp-for="Email" type="text" placeholder="Podaj e-mail" required data-val="true"
+                               id="Email" name="Email" value="">
+                    </div>
+                    <div class="input-box">
+                        <label asp-for="Role">Rola</label>
+                        <select asp-for="Role">
+                            <option>Wybierz rolę użytkownika</option>
+                            <option>Koordynator</option>
+                            <option>Sprawdzający</option>
+                            <option>Uczeń</option>
+                        </select>
+                    </div>
+                    <div class="container-btn">
+                        <input type="submit" value="Zaproś użytkownika" />
+                        <input name="__RequestVerificationToken" type="hidden"
+                               value="CfDJ8H4j3eNZYedPjnlQmy4M_OgHQj5YcGKVqPzhRVOLwwipFsKpWQEazFP04L6Bmu50iDQIlZHwz4cn59KTrZhevTB73b-RCKDUgmNbrSWLeSukmGPJxo5ZrpHRLokzEM_SYYkZIB_2jd6cvf8dmxw11y7GQcEzHLvCpzQy8e6y6DZmlqaYMsmbKWn8jEJ3qZV6JA" />
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</section>

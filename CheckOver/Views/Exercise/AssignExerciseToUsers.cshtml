@@ -3,30 +3,36 @@
     ViewData["Title"] = "AssignExerciseToUsers";
 }
 
-<div class="container-login100">
-    <div class="wrap-login100">
-        <div class="login100-more" style="background-image: url('images/group.jpg');"></div>
-        <form asp-action="AssignExerciseToUsers" enctype="multipart/form-data" class="login100-form validate-form">
-            <span class=" login100-form-title p-b-34 text-dark">
-                Przypisz zadanie do grupy
-            </span>
-            <div class="col-12">
-                <div class="form-group">
-                    <label asp-for="DeadLineString" class="control-label"></label>
-                    <input asp-for="DeadLineString" id="datepicker" width="700" />
-                    <span asp-validation-for="DeadLineString" class="text-danger"></span>
-                </div>
+<section id="logowanie">
+    <div class="wrapper">
+        <header class="center">
+            <div class="tytul">
+                <h3>Dodaj zadanie</h3>
             </div>
-            <button class="login100-form-btn">
-                Przypisz zadanie do grupy
-            </button>
-        </form>
+        </header>
+        <main class="page-body">
+            <div class="container">
+                <form enctype="multipart/form-data" asp-action="AssignExerciseToUsers" method="post">
+                    <div class="input-box-small">
+                        <p>Termin oddania:</p>
+                        <input asp-for="DeadLineString" id="datepicker" type="text" data-val="true" data-val-required="The Czas uko&#x144;czenia field is required." name="DeadLineString" value="" />
+                    </div>
+                    <div class="container-btn">
+                        <span class="text-danger field-validation-valid" asp-validation-for="DeadLineString" data-valmsg-for="DeadLineString" data-valmsg-replace="true"></span>
+                        <input type="submit" value="Przydziel zadanie" />
+                    </div>
+
+                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8H4j3eNZYedPjnlQmy4M_Oi6is4k7OXULZhiEuLticW6P4gbRemd7Ar8-3L81YxK23Q0tulewwBUn7PypLusULbyKzes1DbtkPRJAJuCSuU7NVVhH69T1_ACBtOs6xs0a30Rqqncn64s4Io_YBP6l0rhVp1iqBWS-b8WK_nszN6keU-Vt7_PzZ6ohKgRDd71xg" />
+                </form>
+            </div>
+        </main>
     </div>
-</div>
+</section>
 
 @section Scripts
     {
-
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap-grid.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <script>

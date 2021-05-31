@@ -1,32 +1,86 @@
-﻿@model IEnumerable<Exercise>
+﻿@model CheckOver.Models.ViewModels.SolvingsVM
 @{
     ViewData["Title"] = "Zadania";
 }
 
-<div class="row p-5">
-    @{
-        foreach (var item in Model)
-        {
-        <div class="col-3 mt-2 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <h4 class="col-8">@item.Title</h4>
-                        <h4 class="text-right col-4">@item.MaxPoints pkt</h4>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p>Data utworzenia: @item.CreatedAt</p>
-                    <h6 class="card-text mt-3">@item.Description.Substring(0, Math.Min(item.Description.Length, 200)) ..</h6>
-                    <div class="btn-group mt-3" role="group" aria-label="Buttons">
-                        <a asp-controller="Exercise" asp-action="AssignExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary">Przydziel</a>
-                        <a asp-controller="Exercise" asp-action="UpdateExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary">Edytuj</a>
-                        <a asp-controller="Exercise" asp-action="DeleteExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary">Usuń</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section id="lista">
 
-        }
-    }
-</div>
+    <div class="wrapper">
+        <header>
+            <div class="tytul">
+                <h3>Zadania</h3>
+            </div><div class="container-btn-left">
+                <a asp-controller="Exercise" asp-action="AddExercise" class="btn btn-primary">DODAJ ZADANIE</a>
+                <a asp-controller="Exercise" asp-action="ShowCreatedExercises" class="btn btn-primary">UTWORZONE ZADANIA</a>
+                <a class="btn btn-primary" href="/Exercise/ShowCreatedExercises">SPRAWDZONE ZADANIA</a>
+            </div>
+        </header>
+        <main class="page-body">
+
+            <h2>Do zrobienia</h2>
+            <div class="aktywne">
+                @foreach (var item in Model.ToSolve)
+                {
+                    <div class="item">
+                        <a asp-controller="Exercise" asp-action="SolveTheExercise" asp-route-SolvingId="@item.SolvingId">
+                            <ul>
+                                <li>
+                                    <p class="first">@item.Assignment.Group.Name</p>
+                                </li>
+                                <li>
+                                    <p>@item.Exercise.Title</p>
+                                </li>
+                                <li>
+                                    <p>@item.DeadLine</p>
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
+                }
+            </div>
+
+            <h2>Do sprawdzenia</h2>
+            <div class="aktywne">
+                @foreach (var item in Model.ToCheck)
+                {
+                    <div class="item">
+                        <a asp-controller="Exercise" asp-action="CheckTheExercise" asp-route-SolvingId="@item.SolvingId">
+                            <ul>
+                                <li>
+                                    <p class="first">@item.Assignment.Group.Name</p>
+                                </li>
+                                <li>
+                                    <p>@item.Exercise.Title</p>
+                                </li>
+                                <li>
+                                    <p>@item.DeadLine</p>
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
+                }
+            </div>
+            <h2>Ocenione</h2>
+            <div class="aktywne">
+                @foreach (var item in Model.Checked)
+                {
+                    <div class="item">
+                        <a asp-controller="Exercise" asp-action="ShowCheckedExercise" asp-route-SolvingId="@item.SolvingId">
+                            <ul>
+                                <li>
+                                    <p class="first">@item.Assignment.Group.Name</p>
+                                </li>
+                                <li>
+                                    <p>@item.Exercise.Title</p>
+                                </li>
+                                <li>
+                                    <p>@item.Checking.Points / @item.Exercise.MaxPoints</p>
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
+                }
+            </div>
+        </main>
+    </div>
+</section>

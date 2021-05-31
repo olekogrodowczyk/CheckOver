@@ -3,24 +3,47 @@
     ViewData["Title"] = "SolveTheExercise";
 }
 
-<div class="container-fluid p-5 p-l-100">
-    <h2 class="mt-3 font-weight-bold">@Model.Solving.Exercise.Title</h2>
-    <h4 class="mt-3 font-weight-bold">@Model.Solving.Assignment.Group.Name</h4>
-    <h5 class="font-weight-bold mt-4">Termin zamknięcia zadania: @Model.Solving.Exercise.DeadLine</h5>
+<section id="rozwiazywanie_zadania">
+    <div class="wrapper">
+        <header>
+            <div class="tytul">
+                <h3>@Model.Solving.Exercise.Title</h3>
+            </div>
+            <div class="informacje">
+                <h3>@Model.Solving.Assignment.Group.Name</h3>
+                <h4>@Model.Solving.Exercise.Description</h4>
+                <ul>
+                    <li>
+                        <h4>Termin zamknięcia zadania:</h4>
+                    </li>
+                    <li>
+                        <h3>@Model.Solving.DeadLine</h3>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <main class="page-body">
+            <div class="container">
+                <form method="post" asp-action="SolveTheExercise">
+                    <div class="document-editor__editable-container">
+                        <textarea asp-for="Answer" id="editor" data-val="true" data-val-required="The Answer field is required."
+                                  name="Answer">
+                         </textarea>
+                    </div>
+                    <span class="field-validation-valid" asp-validation-for="Answer" data-valmsg-for="Answer"
+                          data-valmsg-replace="true"></span>
 
-    <p class="mt-4 mb-3 font-weight-bold">@Model.Solving.Exercise.Description</p>
-    <form asp-action="SolveTheExercise" method="post">
-        <textarea asp-for="@Model.Answer" id="editor">
-            &lt;p&gt;Umieść tutaj rozwiązanie zadania.&lt;/p&gt;
-        </textarea>
-        <span asp-validation-for="@Model.Answer" class="text-danger"></span>
-        <div class="container-login100-form-btn m-t-25">
-            <button class="login100-form-btn">
-                Prześlij
-            </button>
-        </div>
-    </form>
-</div>
+                    <div class="container-btn">
+                        <input type="submit" class="margin-top-btn" value="Oddaj zadanie" />
+                    </div>
+
+                    <input name="__RequestVerificationToken" type="hidden"
+                           value="CfDJ8H4j3eNZYedPjnlQmy4M_OgSAQNv6UjLUzQHylr3BvTZIbysG9Qjo1iiJz30GHPzoS3S7R4QwqkkBlZCPkIxOGb9NT5YGk_IqqBPClCYsccJjpySGl_4nnb-UBPx7xBpnVi1ZeH1NirRegsuKhmYF06vzpXxmkG8aIQCUo3ZQfqegg14BRKv3wnwVycRFsSh_Q" />
+                </form>
+            </div>
+        </main>
+    </div>
+</section>
 
 @section Scripts
 {

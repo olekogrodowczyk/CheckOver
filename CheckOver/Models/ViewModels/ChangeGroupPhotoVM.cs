@@ -5,17 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CheckOver.Models
+namespace CheckOver.Models.ViewModels
 {
-    public class GroupSettingsVM
+    public class ChangeGroupPhotoVM
     {
-        [Display(Name = "Nazwa")]
-        public string Name { get; set; }
-
         [Display(Name = "Zdjęcie")]
         public IFormFile CoverPhoto { get; set; }
 
         public string CoverImageUrl { get; set; }
-        public string PresentImageUrl { get; set; }
     }
 }

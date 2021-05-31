@@ -73,32 +73,14 @@ namespace CheckOver.Controllers
         {
             GetGroupVM data = new GetGroupVM();
             data.Group = await groupRepository.GetGroupById(id);
-            data.Assignments = await groupRepository.getMembers(id);
+            data.Checkers = await groupRepository.getCheckers(id);
+            data.Solvers = await groupRepository.getSolvers(id);
             return View(data);
         }
 
         [HttpGet]
         public ViewResult GetUsers(int GroupId)
         {
-            return View();
-        }
-
-        [HttpGet]
-        [Route("grupa/{id}/ustawienia")]
-        public ViewResult GroupSettings(int id)
-        {
-            return View();
-        }
-
-        [Route("grupa/{id}/ustawienia")]
-        [HttpPost]
-        public async Task<ActionResult> GroupSettings(GroupSettingsVM groupSettings, int id)
-        {
-            if (ModelState.IsValid)
-            {
-                await groupRepository.ApplyGroupSettings(groupSettings, id);
-                return RedirectToAction("GetUsersGroups", "Group");
-            }
             return View();
         }
 
@@ -119,6 +101,52 @@ namespace CheckOver.Controllers
         {
             bool ifSucceed = await groupRepository.DeteleGroup(groupId);
             return RedirectToAction("GetUsersGroups");
+        }
+
+        [Route("edycja-grupy/{groupId}")]
+        public async Task<IActionResult> EditGroup(int groupId)
+        {
+            GetGroupVM data = new GetGroupVM();
+            data.Group = await groupRepository.GetGroupById(groupId);
+            data.Checkers = await groupRepository.getCheckers(groupId);
+            data.Solvers = await groupRepository.getSolvers(groupId);
+            return View(data);
+        }
+
+        public async Task<IActionResult> ChangeRole(int groupId, string userId)
+        {
+            await groupRepository.ChangeRole(groupId, userId);
+            return RedirectToAction(nameof(EditGroup), new { groupId = groupId });
+        }
+
+        [Route("edycja-grupy/zmiana-zdjecia/{groupId}")]
+        [HttpGet]
+        public IActionResult ChangeGroupPhoto(int groupId)
+        {
+            return View();
+        }
+
+        [Route("edycja-grupy/zmiana-zdjecia/{groupId}")]
+        [HttpPost]
+        public async Task<IActionResult> ChangeGroupName(int groupId, ChangeGroupPhotoVM changeGroupPhotoVM)
+        {
+            await groupRepository.ChangeGroupPhoto(groupId, changeGroupPhotoVM);
+            return RedirectToAction(nameof(EditGroup), new { groupId = groupId });
+        }
+
+        [Route("edycja-grupy/zmiana-nazwy/{groupId}")]
+        [HttpGet]
+        public IActionResult ChangeGroupName(int groupId)
+        {
+            return View();
+        }
+
+        [Route("edycja-grupy/zmiana-nazwy/{groupId}")]
+        [HttpPost]
+        public async Task<IActionResult> ChangeGroupName(int groupId, ChangeGroupNameVM changeGroupNameVM)
+        {
+            await groupRepository.ChangeGroupName(groupId, changeGroupNameVM);
+            return RedirectToAction(nameof(EditGroup), new { groupId = groupId });
         }
     }
 }

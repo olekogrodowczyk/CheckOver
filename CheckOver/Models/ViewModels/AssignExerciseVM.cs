@@ -11,5 +11,7 @@ namespace CheckOver.Models.ViewModels
         [Required]
         [Display(Name = "Czas ukończenia")]
         public string DeadLineString { get; set; }
+
+        public Exercise Exercise { get; set; }
     }
 }

@@ -1,42 +1,70 @@
 ﻿@model SignUpVM
 
-<div class="container-login100">
-    <div class="wrap-login100">
-        <div class="login100-more" style="background-image: url('images/register.jpg');"></div>
-        <form asp-action="SignUp" class="row g-3 login100-form validate-form formularz">
-            <div asp-validation-summary="ModelOnly" class="text-danger m-b-25"></div>
-            <div class="col-12">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" type="text" class="form-control" id="inputAddress">
-                <span asp-validation-for="Email" class="text-danger"></span>
+<section id="logowanie">
+    <div class="wrapper">
+        <header class="center">
+            <div class="tytul">
+                <h3>REJESTRACJA</h3>
             </div>
-            <div class="col-md-6">
-                <label asp-for="FirstName" class="form-label"></label>
-                <input asp-for="FirstName" type="text" class="form-control" id="inputAddress">
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+        </header>
+        <main class="page-body">
+            <div class="container">
+                <form asp-action="SignUp" method="post">
+                    <div class="input-box">
+                        <span class="detail">
+                            Imię
+                        </span>
+                        <input asp-for="FirstName" placeholder="Podaj imię" type="text" id="FirstName"
+                               name="FirstName" value="">
+                        <span class="field-validation-valid" data-valmsg-for="FirstName"
+                              data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="detail">
+                            Nazwisko
+                        </span>
+                        <input asp-for="LastName" type="text" placeholder="Podaj nazwisko" id="LastName"
+                               name="LastName" value="">
+                        <span class="field-validation-valid" data-valmsg-for="LastName"
+                              data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="detail">
+                            E-mail
+                        </span>
+                        <input asp-for="Email" type="text" placeholder="Podaj e-mail" id="Email"
+                               name="Email" value="">
+                        <span class="field-validation-valid" data-valmsg-for="Email"
+                              data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="detail">
+                            Password
+                        </span>
+                        <input asp-for="Password" type="password" placeholder="Podaj hasło" id="Password"
+                               name="Password">
+                        <span class="field-validation-valid" data-valmsg-for="Password"
+                              data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="detail">Potwiedź hasło</span>
+                        <input asp-for="ConfirmPassword" type="password" placeholder="Potwierdź hasło"
+                               id="ConfirmPassword" name="ConfirmPassword">
+                        <span class="field-validation-valid" data-valmsg-for="ConfirmPassword"
+                              data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="container-btn">
+                        <input type="submit" class="btn btn-primary" value="Zarejestruj się">
+                    </div>
+                    <div class="validation-summary-valid" data-valmsg-summary="true">
+                        <ul>
+                            <li style="display:none"></li>
+                        </ul>
+                    </div>
+                    <input name="__RequestVerificationToken" type="hidden"
+                           value="CfDJ8H4j3eNZYedPjnlQmy4M_OgrrUlbxlSISp_12gSJUJ0VHIEw9PeojQXWWaD5CDneETcAQXoIjjO7ITmRKmBknB4ldf_4ZKpRv3QTnVBuGlwE7Oot8OqMVoCiNSZvMTAV0qWnXvs7ttf0XR6YH1ZlVlQ" />
+                </form>
             </div>
-            <div class="col-md-6">
-                <label asp-for="LastName" class="form-label"></label>
-                <input asp-for="LastName" type="text" class="form-control" id="inputAddress">
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" id="inputAddress">
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label asp-for="ConfirmPassword" class="form-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" id="inputAddress">
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="container-login100-form-btn m-t-25">
-                <button class="login100-form-btn">
-                    Zarejestruj się
-                </button>
-            </div>
-        </form>
+        </main>
     </div>
-</div>
-
-<div id="dropDownSelect1"></div>
+</section>

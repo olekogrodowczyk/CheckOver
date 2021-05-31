@@ -1,20 +1,16 @@
-﻿@model MakeGroupVM
+﻿@model CheckOver.Models.ViewModels.ChangeGroupPhotoVM
 
 <section id="logowanie">
     <div class="wrapper">
         <header class="center">
             <div class="tytul">
-                <h3>Utwórz grupę</h3>
+                <h3>Zmień zdjęcie</h3>
             </div>
         </header>
         <main class="page-body">
             <div class="container">
-                <form asp-action="AddNewGroup" method="post" enctype="multipart/form-data">
-                    <div class="input-box">
-                        <label asp-for="Name">Nazwa</label>
-                        <input asp-for="Name" type="text" />
-                        <span asp-validation-for="Name"></span>
-                    </div>
+                <form asp-action="ChangeGroupPhoto" enctype="multipart/form-data" method="post">
+
                     <div class="input-box">
                         <label asp-for="CoverPhoto">Zdjęcie</label>
                         <div class="custom-file">
@@ -24,7 +20,7 @@
                               data-valmsg-replace="true"></span>
                     </div>
                     <div class="container-btn">
-                        <input type="submit" class="btn btn-primary" value="Dodaj grupę" />
+                        <input type="submit" class="btn btn-primary" value="Edytuj grupę" />
                     </div>
                     <input name="__RequestVerificationToken" type="hidden"
                            value="CfDJ8H4j3eNZYedPjnlQmy4M_OhQg09yxHgf3bBeCK00kt_hV3-3-4CqA_WM2rm3mnPc4NmCNIFVbKrLupemoGvdPmOtajrtu_yt4m14r_Z3ZFLI26doeO4blZt2L1BVvLTsU1JcSjdp-tFG57osfV0sd-hFL21FyOPKw1YywUFh2mf8MSIffql3azaEAZTCxNc_Fg" />

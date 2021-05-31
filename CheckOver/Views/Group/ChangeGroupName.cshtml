@@ -1,0 +1,30 @@
+﻿@model CheckOver.Models.ViewModels.ChangeGroupNameVM
+
+<section id="logowanie">
+    <div class="wrapper">
+        <header class="center">
+            <div class="tytul">
+                <h3>Zmień nazwę</h3>
+            </div>
+        </header>
+        <main class="page-body">
+            <div class="container">
+                <form asp-action="ChangeGroupName" enctype="multipart/form-data" method="post">
+                    <div class="input-box">
+                        <label for="Name">Nowa nazwa:</label>
+                        <input asp-for="Name" type="text" data-val="true"
+                               name="Name" value="" />
+                        <span class="field-validation-valid" data-valmsg-for="Name"
+                              data-valmsg-replace="true"></span>
+                    </div>
+
+                    <div class="container-btn">
+                        <input type="submit" class="btn btn-primary" value="Edytuj grupę" />
+                    </div>
+                    <input name="__RequestVerificationToken" type="hidden"
+                           value="CfDJ8H4j3eNZYedPjnlQmy4M_OhQg09yxHgf3bBeCK00kt_hV3-3-4CqA_WM2rm3mnPc4NmCNIFVbKrLupemoGvdPmOtajrtu_yt4m14r_Z3ZFLI26doeO4blZt2L1BVvLTsU1JcSjdp-tFG57osfV0sd-hFL21FyOPKw1YywUFh2mf8MSIffql3azaEAZTCxNc_Fg" />
+                </form>
+            </div>
+        </main>
+    </div>
+</section>

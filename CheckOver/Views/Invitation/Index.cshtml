@@ -1,7 +1,68 @@
-﻿
+﻿@model CheckOver.Models.ViewModels.InvitationsVM
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<section id="zaproszenia">
+    <div class="wrapper">
 
+        <header>
+
+            <div class="tytul">
+                <h3>Zaproszenia</h3>
+            </div>
+        </header>
+        <main class="page-body">
+            <h2>Oczekujące</h2>
+            <div class="aktywne">
+                @foreach (var item in Model.ReceivedInvitations)
+                {
+                    <div class="item">
+                        <div class="box">
+                            <p>@item.Group.Name</p>
+                            <p>@item.Role.Name</p>
+                        </div>
+                        <p>@item.Group.Creator.FirstName @item.Group.Creator.LastName</p>
+                        @if (item.Status == "Oczekujące")
+                        {
+                            <div class="container_btn">
+                                <a asp-controller="Invitation" asp-action="AcceptInvitation" asp-route-id="@item.InvitationId" class="btn btn-primary"> Zaakceptuj </a>
+                                <a asp-controller="Invitation" asp-action="RejectInvitation" asp-route-id="@item.InvitationId" class="btn btn-primary"> Usuń </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>Zaakceptowane</p>
+                        }
+                    </div>
+                }
+            </div>
+
+            <h2>Wysłane</h2>
+            <div class="aktywne">
+                @foreach (var item in Model.SentInvitations)
+                {
+                    <div class="item">
+                        <div class="box">
+                            <p>@item.Group.Name</p>
+                            <p>@item.Role.Name</p>
+                        </div>
+                        <p>@item.Receiver.FirstName @item.Receiver.LastName</p>
+                        @if (item.Status == "Oczekujące")
+                        {
+                            <p>Oczekujące</p>
+                        }
+                        else if (item.Status == "Odrzucone")
+                        {
+                            <p>Odrzucone</p>
+                        }
+                        else
+                        {
+                            <p>Zaakceptowane</p>
+                        }
+                    </div>
+                }
+            </div>
+        </main>
+    </div>
+</section>

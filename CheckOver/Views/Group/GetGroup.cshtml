@@ -4,75 +4,83 @@
 @model CheckOver.Models.ViewModels.GetGroupVM
 @inject CheckOver.Service.IUserService userService
 
-<div class="row mt-2 p-4">
-    <div class="col-3">
-        <div class="card">
-            <h5 class="card-header"><b>@Model.Group.Name</b></h5>
-            <div class="card-body">
-                <img class="img-fluid mb-3" src="https://checkoverblob.blob.core.windows.net/checkoverblob/@Model.Group.CoverImageUrl" alt="Card image cap">
-                <div class="btn-group" role="group">
-                    @if (userService.CheckIfUserHasPermission("Zmiana nazwy i zdjęcia ", Model.Group.GroupId) == true)
-                    {
-                        <a asp-controller="Group" asp-action="GroupSettings" asp-route-id="@Model.Group.GroupId" class="btn btn-primary">Ustawienia</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-primary disabled">Ustawienia</a>
-                    }
-                    @if (userService.CheckIfUserHasPermission("Zapraszanie użytkowników", Model.Group.GroupId) == true)
-                    {
-                        <a asp-controller="Invitation" asp-action="AddNewInvitation" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">Zaproś użytkownika</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-primary disabled">Zaproś użytkownika</a>
-                    }
-                    @if (userService.ifCreator(Model.Group.GroupId) == false)
-                    {
-                        <a asp-controller="Group" asp-action="LeaveGroup" asp-route-groupId="@Model.Group.GroupId" class="btn btn-primary">Odejdź z grupy</a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Group" asp-action="DeleteGroup" asp-route-groupId="@Model.Group.GroupId" class="btn btn-primary">Usuń grupę</a>
-                    }
+<section id="grupa">
+    <div class="wrapper">
+        <header>
+            <div class="container_tytul">
+                <div class="container_img">
+                    <img style="height:200px; width:300px;"
+                         src="~/@Model.Group.CoverImageUrl"
+                         alt="Photo">
+                </div>
+                <div class="tytul">
+                    <h3>@Model.Group.Name</h3>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="table-responsive col-9">
-        <table class="table table-bordered">
-            <caption>Członkowie</caption>
-            <thead class="thead-dark">
-                <tr>
-                    <th>Imię i nazwisko</th>
-                    <th>Adres e-mail</th>
-                    <th>Data przyłączenia</th>
-                    <th>Rola</th>
-                    <th>Akcja</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Assignments)
+            <div class="container-btn-left">
+                @if (userService.CheckIfUserHasPermission("Dodawanie zadania", Model.Group.GroupId))
                 {
-                    <tr>
-                        <td>@item.User.FirstName @item.User.LastName</td>
-                        <td>@item.User.Email</td>
-                        <td>@item.CreatedAt</td>
-                        <td>@item.Role.Name</td>
-                        <td>
-                            @if (userService.CheckIfUserHasPermission("Usuwanie użytkowników", item.GroupId) == true && item.Role.Name != "Założyciel")
-                            {
-                                <a asp-controller="Group" asp-action="DeleteUser" asp-route-groupId="@item.GroupId" asp-route-UserId="@item.UserId" class="btn btn-primary">Wyrzuć z grupy</a>
-                            }
-                            else
-                            {
-                                <a class="btn btn-primary disabled">Wyrzuć z grupy</a>
-                            }
-                        </td>
-                    </tr>
+                    <a asp-controller="Exercise" asp-action="ChooseExercise" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">
+                        Przydziel zadanie
+                    </a>
                 }
-            </tbody>
-        </table>
+                @if (userService.CheckIfUserHasPermission("Zapraszanie użytkowników", Model.Group.GroupId))
+                {
+                    <a asp-controller="Invitation" asp-action="AddNewInvitation" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">Wyślij zaproszenie</a>
+                }
+                @if (userService.CheckIfUserHasPermission("Zmiana nazwy i zdjęcia", Model.Group.GroupId))
+                {
+                    <a asp-controller="Group" asp-action="EditGroup" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">Edytuj grupe</a>
+                }
+            </div>
+        </header>
+        <main class="page-body">
+
+            <div class="container">
+
+                <div class="informacje">
+                    <h2>Informacje</h2>
+                    <ul>
+                        <li>
+                            <p>Zalozyciel</p>
+                        </li>
+                        <li>
+                            <p>
+                                @Model.Group.Creator.FirstName @Model.Group.Creator.LastName
+                            </p>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li> <p>Liczba osób rozwiazujacych</p></li>
+                        <li> <p>@Model.Solvers.Count</p></li>
+                    </ul>
+                </div>
+                <div class="koordynatorzy">
+                    <h2>Administracja</h2>
+                    <ul>
+                        @foreach (var item in Model.Checkers)
+                        {
+                            <li>
+                                <p>@item.User.FirstName @item.User.LastName</p>
+                                <p>@item.Role.Name</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="uczestnicy">
+
+                    <h2>Rozwiązujący</h2>
+                    <ul>
+                        @foreach (var item in Model.Solvers)
+                        {
+                            <li>
+                                <p>@item.User.FirstName @item.User.LastName</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </main>
     </div>
-</div>
+</section>   

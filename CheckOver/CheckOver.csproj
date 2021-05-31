@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Skrypty\**" />
+    <Content Remove="Skrypty\**" />
+    <EmbeddedResource Remove="Skrypty\**" />
+    <None Remove="Skrypty\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\group\cover\" />
   </ItemGroup>
 

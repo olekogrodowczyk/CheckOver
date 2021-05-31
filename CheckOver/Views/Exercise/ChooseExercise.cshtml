@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Exercise>
+
+<section id="lista_utworzonych">
+    <div class="wrapper">
+        <header>
+            <div class="tytul">
+                <h3>Twoje zadania</h3>
+            </div>
+        </header>
+        <main class="page-body">
+            <div class="utworzone">
+                <div class="item">
+                    @foreach (var item in Model)
+                    {
+                        <li>
+                            <h3>@item.Title</h3>
+                            @item.Description
+                        </li>
+                        <div class="container-btn">
+                            <a asp-controller="Exercise" asp-action="AssignExerciseToUsers" asp-route-ExerciseId="@item.ExerciseId" asp-route-GroupId="@ViewBag.GroupId" class="btn btn-primary"> Przydziel </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </main>
+    </div>
+</section>

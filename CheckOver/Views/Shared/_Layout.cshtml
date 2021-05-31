@@ -1,102 +1,54 @@
 ﻿@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Zaloguj się</title>
-    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/vendor/animate/animate.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/vendor/animsition/css/animsition.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/vendor/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/css/util.css">
-    <link rel="stylesheet" type="text/css" href="~/css/main.css">
-    <!--===============================================================================================-->
-</head>
-<body>
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">CheckOver</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse bg-dark" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto">
-                    @if (_signInManager.IsSignedIn(User))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Group" asp-action="GetUsersGroups">Twoje grupy</a>
+    <!DOCTYPE html>
+    <html lang="pl">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet" href="~/css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+              integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+        <title>Chceckover</title>
+    </head>
+    <body>
+        <div>
+            <nav>
+                <div class="logo">
+                    <h4>Checkover.</h4>
+                </div>
+                @if (_signInManager.IsSignedIn(User))
+                {
+                    <div class="openMenu"><i class="fa fa-bars"></i></div>
+
+                    <div class="items">
+                        <li>
+                            <a asp-controller="Exercise" asp-action="Index">ZADANIA</a>
+                            <a asp-controller="Group" asp-action="GetUsersGroups">GRUPY</a>
+                            <a asp-controller="Invitation" asp-action="Index">ZAPROSZENIA</a>
+                            <a asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Group" asp-action="AddNewGroup">Stwórz grupę</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Invitation" asp-action="GetAllReceived">Zaproszenia odebrane</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Invitation" asp-action="GetAllSent">Zaproszenia wysłane</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Exercise" asp-action="Index">Twoje zadania</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Exercise" asp-action="AddExercise">Dodaj zadanie</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Exercise" asp-action="ShowAssignedExercises">Przydzielone zadania</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Exercise" asp-action="ShowExercisesToCheck">Zadania do sprawdzenia</a>
-                        </li>
-                        @*<li class="nav-item">
-                                <a class="nav-link" asp-controller="Exercise" asp-action="ShowCheckedExercises">Sprawdzone zadania</a>
-                            </li>*@
-                    }
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    @await Html.PartialAsync("_LoginInfo")
-                </ul>
-            </div>
-        </nav>
-    </div>
-    <div class="container-fluid" style="padding-bottom: 100px; padding-top:50px">
-        @RenderBody()
-    </div>
-    <footer class="bg-light text-center text-lg-start fixed-bottom footer text-white">
-        <div class="text-center p-3 bg-dark text-white">
-            © 2021 Copyright:
-            <a class="text-white">CheckOver</a>
+                        <div class="closeMenu"><i class="fa fa-times"></i></div>
+                    </div>
+                }
+            </nav>
         </div>
-    </footer>
-    <script src="~/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="~/vendor/animsition/js/animsition.min.js"></script>
-    <script src="~/vendor/bootstrap/js/popper.js"></script>
-    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/vendor/select2/select2.min.js"></script>
-    <script src="~/lib/jqueryui/jquery-ui.js"></script>
-    <script src="~/lib/moment.js/moment.js"></script>
+        <div>
+            @RenderBody()
+        </div>
 
-    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-    <script>
-        $(".selection-2").select2({
-            minimumResultsForSearch: 20,
-            dropdownParent: $('#dropDownSelect1')
-        });
-    </script>
-    <script src="vendor/countdowntime/countdowntime.js"></script>
+        <footer class="page-footer bg-light text-center text-lg-start fixed-bottom footer text-white">
+            <div class="text-center p-3 bg-dark text-white">
 
-    @RenderSection("Scripts", required: false)
-</body>
+                <a class="text-white"> © 2021 Copyright:CheckOver</a>
+            </div>
+        </footer>
+
+        <script src="~/js/app.js"></script>
+
+        @RenderSection("Scripts", required: false)
+    </body>
 </html>
