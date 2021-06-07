@@ -10,6 +10,7 @@
         <main class="page-body">
             <div class="container">
                 <form asp-action="SignIn" method="post">
+                    <div asp-validation-summary="All"></div>
                     <div class="input-box">
                         <span class="detail">
                             E-mail
@@ -27,16 +28,7 @@
 
                     <div class="container-btn">
                         <input type="submit" class="margin-right-btn" value="Zaloguj">
-                        <!-- <input type="submit" class="" value="Zapomniałeś/aś hasła?"> -->
                     </div>
-
-                    <div class="validation-summary-valid" data-valmsg-summary="true">
-                        <ul>
-                            <li style="display:none"></li>
-                        </ul>
-                    </div>
-                    <input name="__RequestVerificationToken" type="hidden"
-                           value="CfDJ8H4j3eNZYedPjnlQmy4M_Oii83bRN6xCqDyuYm_nwzmEEU2BtlAW7CnYhH4qSR-SkTNRodWkBRRkX479VhkBleQL6dvQAtxKmx96VwoBDj-3rpr-66YZr9_CStUk_IpfvHmqbp67OOQzd-DB4vvkWEw" />
                 </form>
                 <a href="przypomnienie.html">Zapomniałeś/aś hasła?</a>
             </div>

@@ -1,0 +1,42 @@
+﻿@model CheckOver.Models.ViewModels.ConfigureExerciseVM
+
+<section id="oddawanie_zadania">
+    <div class="wrapper">
+        <header>
+            <div class="tytul">
+                <h3>Skonfiguruj zadanie</h3>
+            </div>
+            <div class="informacje">
+                <h3>@Model.Title</h3>
+                <h4>@Model.Description</h4>
+                <ul>
+                    <li><label>Liczba punktów: </label></li>
+                    <li>
+                        <input type="text" disabled data-val="true"
+                               data-val-required="The Punkty field is required." id="Checking_Points"
+                               name="Checking.Points" value="@Model.MaxPoints" />
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <main class="page-body">
+            <form asp-action="ConfigureExercise" method="post">
+                <div class="container">
+                    <div class="homework">
+                        <h2>Prawidłowy kod programu</h2>
+                        <textarea asp-for="ValidCode">
+                   </textarea>
+                    </div>
+                    <div class="homework">
+                        <h2>Argumenty do sprawdzenia</h2>
+                        <textarea asp-for="Arguments">
+                    </textarea>
+                    </div>
+                </div>
+                <div class="container-btn">
+                    <input type="submit" class="margin-top-btn" value="Zatwierdź" />
+                </div>
+            </form>
+        </main>
+    </div>
+</section>

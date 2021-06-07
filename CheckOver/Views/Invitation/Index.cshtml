@@ -13,7 +13,7 @@
             </div>
         </header>
         <main class="page-body">
-            <h2>Oczekujące</h2>
+            <h2>Odebrane</h2>
             <div class="aktywne">
                 @foreach (var item in Model.ReceivedInvitations)
                 {
@@ -22,6 +22,7 @@
                             <p>@item.Group.Name</p>
                             <p>@item.Role.Name</p>
                         </div>
+                        <p>@item.CreatedAt</p>
                         <p>@item.Group.Creator.FirstName @item.Group.Creator.LastName</p>
                         @if (item.Status == "Oczekujące")
                         {
@@ -47,6 +48,7 @@
                             <p>@item.Group.Name</p>
                             <p>@item.Role.Name</p>
                         </div>
+                        <p>@item.CreatedAt</p>
                         <p>@item.Receiver.FirstName @item.Receiver.LastName</p>
                         @if (item.Status == "Oczekujące")
                         {

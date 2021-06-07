@@ -21,6 +21,8 @@ namespace CheckOver.Models
         public string CreatorId { get; set; }
 
         public virtual ApplicationUser Creator { get; set; }
+        public string ValidCode { get; set; }
+        public string Arguments { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; }

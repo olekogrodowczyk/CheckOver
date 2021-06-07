@@ -12,7 +12,6 @@
             </div><div class="container-btn-left">
                 <a asp-controller="Exercise" asp-action="AddExercise" class="btn btn-primary">DODAJ ZADANIE</a>
                 <a asp-controller="Exercise" asp-action="ShowCreatedExercises" class="btn btn-primary">UTWORZONE ZADANIA</a>
-                <a class="btn btn-primary" href="/Exercise/ShowCreatedExercises">SPRAWDZONE ZADANIA</a>
             </div>
         </header>
         <main class="page-body">
@@ -63,6 +62,27 @@
             <h2>Ocenione</h2>
             <div class="aktywne">
                 @foreach (var item in Model.Checked)
+                {
+                    <div class="item">
+                        <a asp-controller="Exercise" asp-action="ShowCheckedExercise" asp-route-SolvingId="@item.SolvingId">
+                            <ul>
+                                <li>
+                                    <p class="first">@item.Assignment.Group.Name</p>
+                                </li>
+                                <li>
+                                    <p>@item.Exercise.Title</p>
+                                </li>
+                                <li>
+                                    <p>@item.Checking.Points / @item.Exercise.MaxPoints</p>
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
+                }
+            </div>
+            <h2>Sprawdzone przez Ciebie</h2>
+            <div class="aktywne">
+                @foreach (var item in Model.CheckedByUser)
                 {
                     <div class="item">
                         <a asp-controller="Exercise" asp-action="ShowCheckedExercise" asp-route-SolvingId="@item.SolvingId">

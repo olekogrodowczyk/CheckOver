@@ -10,5 +10,6 @@ namespace CheckOver.Models.ViewModels
         public List<Solving> ToCheck { get; set; }
         public List<Solving> ToSolve { get; set; }
         public List<Solving> Checked { get; set; }
+        public List<Solving> CheckedByUser { get; set; }
     }
 }

@@ -10,6 +10,8 @@ namespace CheckOver.Models.ViewModels
     public class MakeOrUpdateExerciseVM
     {
         [Required]
+        [MinLength(5)]
+        [MaxLength(30)]
         [Display(Name = "Tytuł")]
         public string Title { get; set; }
 

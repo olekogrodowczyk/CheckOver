@@ -9,8 +9,7 @@
         <header>
             <div class="container_tytul">
                 <div class="container_img">
-                    <img style="height:200px; width:300px;"
-                         src="~/@Model.Group.CoverImageUrl"
+                    <img src="~/@Model.Group.CoverImageUrl"
                          alt="Photo">
                 </div>
                 <div class="tytul">
@@ -20,17 +19,17 @@
             <div class="container-btn-left">
                 @if (userService.CheckIfUserHasPermission("Dodawanie zadania", Model.Group.GroupId))
                 {
-                    <a asp-controller="Exercise" asp-action="ChooseExercise" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">
-                        Przydziel zadanie
-                    </a>
+                <a asp-controller="Exercise" asp-action="ChooseExercise" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">
+                    Przydziel zadanie
+                </a>
                 }
                 @if (userService.CheckIfUserHasPermission("Zapraszanie użytkowników", Model.Group.GroupId))
                 {
-                    <a asp-controller="Invitation" asp-action="AddNewInvitation" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">Wyślij zaproszenie</a>
+                <a asp-controller="Invitation" asp-action="AddNewInvitation" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">Wyślij zaproszenie</a>
                 }
                 @if (userService.CheckIfUserHasPermission("Zmiana nazwy i zdjęcia", Model.Group.GroupId))
                 {
-                    <a asp-controller="Group" asp-action="EditGroup" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">Edytuj grupe</a>
+                <a asp-controller="Group" asp-action="EditGroup" asp-route-GroupId="@Model.Group.GroupId" class="btn btn-primary">Edytuj grupe</a>
                 }
             </div>
         </header>
@@ -42,17 +41,17 @@
                     <h2>Informacje</h2>
                     <ul>
                         <li>
-                            <p>Zalozyciel</p>
+                            <p>Zalozyciel:</p>
                         </li>
                         <li>
-                            <p>
+                            <p class="dark">
                                 @Model.Group.Creator.FirstName @Model.Group.Creator.LastName
                             </p>
                         </li>
                     </ul>
                     <ul>
-                        <li> <p>Liczba osób rozwiazujacych</p></li>
-                        <li> <p>@Model.Solvers.Count</p></li>
+                        <li> <p>Liczba osób rozwiazujacych:</p></li>
+                        <li> <p class="dark">@Model.Solvers.Count</p></li>
                     </ul>
                 </div>
                 <div class="koordynatorzy">
@@ -60,10 +59,10 @@
                     <ul>
                         @foreach (var item in Model.Checkers)
                         {
-                            <li>
-                                <p>@item.User.FirstName @item.User.LastName</p>
-                                <p>@item.Role.Name</p>
-                            </li>
+                        <li>
+                            <p>@item.User.FirstName @item.User.LastName:</p>
+                            <p class="dark">@item.Role.Name</p>
+                        </li>
                         }
                     </ul>
                 </div>
@@ -74,9 +73,9 @@
                     <ul>
                         @foreach (var item in Model.Solvers)
                         {
-                            <li>
-                                <p>@item.User.FirstName @item.User.LastName</p>
-                            </li>
+                        <li>
+                            <p>@item.User.FirstName @item.User.LastName</p>
+                        </li>
                         }
                     </ul>
                 </div>

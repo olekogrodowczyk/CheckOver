@@ -1,5 +1,7 @@
-﻿using CheckOver.Models.ViewModels;
+﻿using CheckOver.Models;
+using CheckOver.Models.ViewModels;
 using CheckOver.Repository;
+using CheckOver.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,20 +14,24 @@ namespace CheckOver.Controllers
     {
         private readonly IExerciseRepository exerciseRepository;
         private readonly IGroupRepository groupRepository;
+        private readonly IUserService userService;
 
-        public ExerciseController(IExerciseRepository exerciseRepository, IGroupRepository groupRepository)
+        public ExerciseController(IExerciseRepository exerciseRepository, IGroupRepository groupRepository, IUserService userService)
         {
             this.exerciseRepository = exerciseRepository;
             this.groupRepository = groupRepository;
+            this.userService = userService;
         }
 
         [HttpGet]
+        [Route("zadanie/dodaj-zadanie")]
         public IActionResult AddExercise()
         {
             return View();
         }
 
         [HttpPost]
+        [Route("zadanie/dodaj-zadanie")]
         public async Task<IActionResult> AddExercise(MakeOrUpdateExerciseVM makeExerciseVM)
         {
             int id = await exerciseRepository.AddExercise(makeExerciseVM);
@@ -52,11 +58,12 @@ namespace CheckOver.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("zadanie/przypisz/{ExerciseId}")]
         public async Task<IActionResult> AssignExercise(int ExerciseId)
         {
-            var groups = await groupRepository.GetUsersGroups();
+            var data = await exerciseRepository.getGroupsWithPrivilege();
             ViewBag.ExerciseId = ExerciseId;
-            return View(groups);
+            return View(data);
         }
 
         [HttpGet]
@@ -72,16 +79,21 @@ namespace CheckOver.Controllers
         [Route("zadanie/przypisz/{ExerciseId}/{GroupId}")]
         public async Task<IActionResult> AssignExerciseToUsers(int GroupId, int ExerciseId, AssignExerciseVM assignExerciseVM)
         {
-            await exerciseRepository.AssignExerciseToUsers(GroupId, ExerciseId, assignExerciseVM);
+            if (ModelState.IsValid)
+            {
+                await exerciseRepository.AssignExerciseToUsers(GroupId, ExerciseId, assignExerciseVM);
+            }
             return RedirectToAction("Index");
         }
 
+        [Route("zadanie/przypisane-zadania")]
         public async Task<IActionResult> ShowAssignedExercises()
         {
             var data = await exerciseRepository.GetUserSolvings();
             return View(data);
         }
 
+        [Route("zadanie/sprawdzone-zadanie/{SolvingId}")]
         public async Task<IActionResult> ShowCheckedExercise(int SolvingId)
         {
             var data = await exerciseRepository.GetSolvingById(SolvingId);
@@ -89,7 +101,7 @@ namespace CheckOver.Controllers
         }
 
         [HttpGet]
-        [Route("zadanie/{SolvingId}/rozwiazanie")]
+        [Route("zadanie/rozwiazanie/{SolvingId}")]
         public async Task<IActionResult> SolveTheExercise(int SolvingId)
         {
             SolvedExerciseVM solvedExerciseVM = new SolvedExerciseVM();
@@ -98,7 +110,7 @@ namespace CheckOver.Controllers
         }
 
         [HttpPost]
-        [Route("zadanie/{SolvingId}/rozwiazanie")]
+        [Route("zadanie/rozwiazanie/{SolvingId}")]
         public async Task<IActionResult> SolveTheExercise(SolvedExerciseVM solvedExerciseVM, int SolvingId)
         {
             if (ModelState.IsValid)
@@ -109,6 +121,7 @@ namespace CheckOver.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Route("zadanie/zadania-do-sprawdzenia")]
         public async Task<IActionResult> ShowExercisesToCheck()
         {
             var data = await exerciseRepository.ShowExercisesToCheck();
@@ -116,7 +129,7 @@ namespace CheckOver.Controllers
         }
 
         [HttpGet]
-        [Route("zadanie/{SolvingId}/sprawdzanie")]
+        [Route("zadanie/sprawdzanie/{SolvingId}")]
         public async Task<IActionResult> CheckTheExercise(int SolvingId)
         {
             CheckTheExerciseVM checkTheExerciseVM = new CheckTheExerciseVM();
@@ -125,7 +138,7 @@ namespace CheckOver.Controllers
         }
 
         [HttpPost]
-        [Route("zadanie/{SolvingId}/sprawdzanie")]
+        [Route("zadanie/sprawdzanie/{SolvingId}")]
         public async Task<IActionResult> CheckTheExercise(CheckTheExerciseVM checkTheExerciseVM, int SolvingId)
         {
             if (ModelState.IsValid)
@@ -135,6 +148,7 @@ namespace CheckOver.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Route("zadanie/wybierz-zadanie")]
         public async Task<IActionResult> ChooseExercise(int GroupId)
         {
             ViewBag.GroupId = GroupId;
@@ -148,6 +162,7 @@ namespace CheckOver.Controllers
             solvingsVM.Checked = await exerciseRepository.ShowCheckedExercises();
             solvingsVM.ToCheck = await exerciseRepository.ShowExercisesToCheck();
             solvingsVM.ToSolve = await exerciseRepository.GetUserSolvings();
+            solvingsVM.CheckedByUser = await exerciseRepository.ShowCheckedExercisesByUsers();
             return View(solvingsVM);
         }
 
@@ -157,10 +172,33 @@ namespace CheckOver.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("zadanie/utworzone-zadania")]
         public async Task<IActionResult> ShowCreatedExercises()
         {
             var data = await exerciseRepository.GetUserExercises();
             return View(data);
+        }
+
+        [HttpGet]
+        [Route("zadanie/konfiguracja/{ExerciseId}")]
+        public async Task<IActionResult> ConfigureExercise(int ExerciseId)
+        {
+            var data = await exerciseRepository.GetExerciseById(ExerciseId);
+            ConfigureExerciseVM configureExerciseVM = new ConfigureExerciseVM();
+            configureExerciseVM.Title = data.Title;
+            configureExerciseVM.Description = data.Description;
+            configureExerciseVM.MaxPoints = data.MaxPoints;
+            configureExerciseVM.Arguments = data.Arguments;
+            configureExerciseVM.ValidCode = data.ValidCode;
+            return View(configureExerciseVM);
+        }
+
+        [HttpPost]
+        [Route("zadanie/konfiguracja/{ExerciseId}")]
+        public async Task<IActionResult> ConfigureExercise(ConfigureExerciseVM configureExerciseVM, int ExerciseId)
+        {
+            await exerciseRepository.ConfigureExercise(configureExerciseVM, ExerciseId);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

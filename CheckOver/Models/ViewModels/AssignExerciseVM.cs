@@ -13,5 +13,6 @@ namespace CheckOver.Models.ViewModels
         public string DeadLineString { get; set; }
 
         public Exercise Exercise { get; set; }
+        public bool Configuration { get; set; }
     }
 }

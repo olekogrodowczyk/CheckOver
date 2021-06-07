@@ -162,6 +162,9 @@ namespace CheckOver.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Arguments")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -178,6 +181,9 @@ namespace CheckOver.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValidCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ExerciseId");
@@ -318,6 +324,12 @@ namespace CheckOver.Migrations
 
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
+
+                    b.Property<string>("AutomaticCheckerOutcome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Configuration")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");

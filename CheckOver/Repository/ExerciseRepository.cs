@@ -69,7 +69,8 @@ namespace CheckOver.Repository
                         Exercise = exercise,
                         ExerciseId = ExerciseId,
                         DeadLine = DateTime.ParseExact(assignExerciseVM.DeadLineString, "dd-MM-yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture),
-                        SentAt = DateTime.MinValue
+                        SentAt = DateTime.MinValue,
+                        Configuration = assignExerciseVM.Configuration
                     };
                     await context.Solvings.AddAsync(newSolving);
                     await context.SaveChangesAsync();
@@ -113,10 +114,20 @@ namespace CheckOver.Repository
 
         public async Task ReceiveSolvedExercise(SolvedExerciseVM solvedExerciseVM, int solvingId)
         {
-            var solving = await context.Solvings.FirstOrDefaultAsync(x => x.SolvingId == solvingId);
+            solvedExerciseVM.Answer = solvedExerciseVM.Answer.Replace("\r\n", "");
+            var solving = await context.Solvings
+                .Include(x => x.Exercise)
+                .FirstOrDefaultAsync(x => x.SolvingId == solvingId);
             solving.Status = "Do sprawdzenia";
             solving.SentAt = DateTime.Now;
             solving.Answer = solvedExerciseVM.Answer;
+            if (solving.Configuration)
+            {
+                AutomaticChecker automaticChecker =
+                    new AutomaticChecker(solving.Exercise.Arguments, solving.Exercise.ValidCode, solvedExerciseVM.Answer);
+                string result = await automaticChecker.run();
+                solving.AutomaticCheckerOutcome = result;
+            }
             await context.SaveChangesAsync();
         }
 
@@ -152,6 +163,20 @@ namespace CheckOver.Repository
                 }
             }
             return solvingsToReturn;
+        }
+
+        public async Task<List<Group>> getGroupsWithPrivilege()
+        {
+            var groups = await groupRepository.GetUsersGroups();
+            var groupsToReturn = new List<Group>();
+            foreach (var item in groups)
+            {
+                if (userService.CheckIfUserHasPermission("Dodawanie zadania", item.GroupId))
+                {
+                    groupsToReturn.Add(item);
+                }
+            }
+            return groupsToReturn;
         }
 
         public async Task ProcessCheckedExercise(CheckTheExerciseVM checkTheExerciseVM, int SolvingId)
@@ -192,6 +217,7 @@ namespace CheckOver.Repository
         public async Task<Exercise> GetExerciseById(int exerciseId)
         {
             var exercise = await context.Exercises.FirstOrDefaultAsync(x => x.ExerciseId == exerciseId);
+            string result = exercise.Arguments;
             return exercise;
         }
 
@@ -212,6 +238,28 @@ namespace CheckOver.Repository
                 context.Exercises.Remove(exercise);
                 await context.SaveChangesAsync();
             }
+        }
+
+        public async Task ConfigureExercise(ConfigureExerciseVM configureExerciseVM, int ExerciseId)
+        {
+            var exercise = await GetExerciseById(ExerciseId);
+            exercise.ValidCode = configureExerciseVM.ValidCode;
+            exercise.Arguments = configureExerciseVM.Arguments;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<List<Solving>> ShowCheckedExercisesByUsers()
+        {
+            var userId = userService.GetUserId();
+            var User = context.Users.FirstOrDefault(x => x.Id == userId);
+            var solvings = await context
+                .Solvings
+                .Include(x => x.Checking)
+                .Include(x => x.Exercise)
+                .Include(x => x.Assignment)
+                .ThenInclude(x => x.Group)
+                .Where(x => x.Checking.Checker == User).ToListAsync();
+            return solvings;
         }
 
         public int function()

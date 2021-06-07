@@ -11,11 +11,15 @@ namespace CheckOver.Repository
 
         Task AssignExerciseToUsers(int GroupId, int ExerciseId, AssignExerciseVM assignExerciseVM);
 
+        Task ConfigureExercise(ConfigureExerciseVM configureExerciseVM, int ExerciseId);
+
         Task DeleteExercise(int ExerciseId);
 
         int function();
 
         Task<Exercise> GetExerciseById(int ExerciseId);
+
+        Task<List<Group>> getGroupsWithPrivilege();
 
         Task<Solving> GetSolvingById(int SolvingId);
 
@@ -28,6 +32,8 @@ namespace CheckOver.Repository
         Task ReceiveSolvedExercise(SolvedExerciseVM solvedExerciseVM, int solvingId);
 
         Task<List<Solving>> ShowCheckedExercises();
+
+        Task<List<Solving>> ShowCheckedExercisesByUsers();
 
         Task<List<Solving>> ShowExercisesToCheck();
 

@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dane\**" />
     <Compile Remove="Skrypty\**" />
+    <Content Remove="Dane\**" />
     <Content Remove="Skrypty\**" />
+    <EmbeddedResource Remove="Dane\**" />
     <EmbeddedResource Remove="Skrypty\**" />
+    <None Remove="Dane\**" />
     <None Remove="Skrypty\**" />
   </ItemGroup>
 

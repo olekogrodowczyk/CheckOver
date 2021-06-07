@@ -13,16 +13,17 @@
                 @foreach (var item in Model)
                 {
                     <div class="item">
-                        <li>
-                            <h3>@item.Title</h3>
-                            <p>@item.Description</p>
-                        </li>
+                        <ul>
+                            <li>
+                                <h3>@item.Title</h3>
+                                <p>@item.Description</p>
+                            </li>
+                        </ul>
                         <div class="container-btn">
-                            <a asp-controller="Exercise" asp-action="AssignExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary">
-                                Przydziel
-                            </a>
-                            <a href="edycja_zadania.html" class="btn btn-primary"> Edytuj </a>
-                            <a href="#" class="btn btn-primary"> Usuń </a>
+                            <a asp-controller="Exercise" asp-action="AssignExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary">Przydziel</a>
+                            <a asp-controller="Exercise" asp-action="UpdateExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary"> Edytuj </a>
+                            <a asp-controller="Exercise" asp-action="ConfigureExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary"> Konfiguruj </a>
+                            <a asp-controller="Exercise" asp-action="DeleteExercise" asp-route-ExerciseId="@item.ExerciseId" class="btn btn-primary"> Usuń </a>
                         </div>
                     </div>
                 }

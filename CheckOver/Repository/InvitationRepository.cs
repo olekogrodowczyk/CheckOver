@@ -30,7 +30,7 @@ namespace CheckOver.Repository
             var assignmentTmp = await context.Assignments
                 .FirstOrDefaultAsync(x => x.User == receiver && x.GroupId == id);
             var invitationTmp = await context.Invitations
-                .FirstOrDefaultAsync(x => x.GroupId == id && x.Receiver == receiver);
+                .FirstOrDefaultAsync(x => x.GroupId == id && x.Receiver == receiver && x.Status == "Oczekujące");
             var role = await context.Roles.FirstOrDefaultAsync(x => x.Name == invitationVM.Role);
             if (sender == receiver) { return "Nie możesz wysłać zaproszenia do samego siebie."; }
             if (receiver == null) { return "Nie znaleziono użytkownika z podanem adresem E-mail."; }

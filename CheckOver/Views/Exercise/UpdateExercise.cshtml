@@ -1,35 +1,53 @@
 ﻿@model CheckOver.Models.ViewModels.MakeOrUpdateExerciseVM
 
-<div class="container-login100">
-    <div class="wrap-login100">
-        <div class="login100-more" style="background-image: url('images/group.jpg');"></div>
-        <form asp-action="UpdateExercise" enctype="multipart/form-data" class="login100-form validate-form">
-            <span class=" login100-form-title p-b-34 text-dark">
-                Edytowanie zadania
-            </span>
-            <div class="col-12 mb-4">
-                <label asp-for="Title" class="form-label"></label>
-                <input asp-for="Title" type="text" class="form-control" id="inputAddress" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+<section id="dodawanie_zadania">
+    <div class="wrapper">
+        <header>
+            <div class="tytul">
+                <h3>Dodawanie zadania</h3>
             </div>
-            <div class="col-12 mb-4">
-                <label asp-for="Description" class="form-label"></label>
-                <textarea rows="5" asp-for="Description" type="text" class="form-control" id="inputAddress"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+        </header>
+
+        <main class="page-body">
+            <div class="container">
+                <div asp-validation-summary="All"></div>
+                <form enctype="multipart/form-data" asp-action="UpdateExercise" method="post">
+                    <h2>Tytuł zadania:</h2>
+
+                    <input asp-for="Title" type="text" required data-val="true"
+                           id="Title" name="Title">
+                    <span class="field-validation-valid" data-valmsg-for="Title"
+                          data-valmsg-replace="true"></span>
+
+                    <h2>Treść zadania:</h2>
+
+                    <textarea asp-for="Description" type="text" data-val="true"
+                              data-val-maxlength="The field Zadanie must be a string or array type with a maximum length of &#x27;3000&#x27;."
+                              data-val-maxlength-max="3000"
+                              data-val-minlength="The field Zadanie must be a string or array type with a minimum length of &#x27;10&#x27;."
+                              data-val-minlength-min="10" data-val-required="The Zadanie field is required."
+                              id="Description" maxlength="3000" name="Description">
+</textarea>
+                    <span class="field-validation-valid" data-valmsg-for="Description"
+                          data-valmsg-replace="true"></span>
+
+                    <h2>Liczba punktów:</h2>
+                    <input asp-for="MaxPoints" type="number" required data-val="true"
+                           id="MaxPoints" name="MaxPoints" />
+                    <span class="field-validation-valid" data-valmsg-for="MaxPoints"
+                          data-valmsg-replace="true"></span>
+
+                    <div class="container-btn-left">
+                        <input type="submit" value="Edytuj zadanie" />
+                    </div>
+                    <input name="__RequestVerificationToken" type="hidden"
+                           value="CfDJ8H4j3eNZYedPjnlQmy4M_OgyJc367-R4vZBk85IO17rTfDGHLohgcwOtAGSfCG4C-1t5wGskbOZwdqgkO04QPORKx9m8jRkRN7ZtYFEPYJ69t3zVzFsY6hRYS8OGkj3aAe8GkKPSAJMqf0pYdki-1tc6JHsAXoDq-QudOcpD8oMj_IiLrHWeb5Hyd8t7huyykA" />
+                </form>
             </div>
-            <div class="col-12 mb-4">
-                <label asp-for="MaxPoints" class="form-label"></label>
-                <input asp-for="MaxPoints" type="text" class="form-control" />
-                <span asp-validation-for="MaxPoints" class="text-danger"></span>
-            </div>
-            <div class="container-login100-form-btn mt-4">
-                <button class="login100-form-btn">
-                    Edytuj zadanie
-                </button>
-            </div>
-        </form>
+        </main>
     </div>
-</div>
+</section>
+
 @section Scripts
     {
 
@@ -43,4 +61,13 @@
             format: 'dd-mm-yyyy HH:MM',
         });
     </script>
-}
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+}  

@@ -26,8 +26,7 @@
             <div class="container">
                 <form method="post" asp-action="SolveTheExercise">
                     <div class="document-editor__editable-container">
-                        <textarea asp-for="Answer" id="editor" data-val="true" data-val-required="The Answer field is required."
-                                  name="Answer">
+                        <textarea asp-for="Answer">
                          </textarea>
                     </div>
                     <span class="field-validation-valid" asp-validation-for="Answer" data-valmsg-for="Answer"
@@ -44,15 +43,3 @@
         </main>
     </div>
 </section>
-
-@section Scripts
-{
-    <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
-}  

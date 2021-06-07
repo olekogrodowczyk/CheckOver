@@ -1,5 +1,7 @@
 ﻿using CheckOver.Models;
+using CheckOver.Models.ViewModels;
 using CheckOver.Repository;
+using CheckOver.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -76,6 +78,32 @@ namespace CheckOver.Controllers
         {
             await _accountRepository.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        [Route("zmiana-hasla")]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("zmiana-hasla")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordVM changePasswordVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _accountRepository.ChangePassword(changePasswordVM);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View();
+                }
+            }
+            return View(changePasswordVM);
         }
     }
 }

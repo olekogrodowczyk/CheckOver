@@ -22,6 +22,8 @@ namespace CheckOver.Models
         public DateTime SentAt { get; set; }
         public string Answer { get; set; }
         public DateTime DeadLine { get; set; }
+        public bool Configuration { get; set; }
+        public string AutomaticCheckerOutcome { get; set; }
 
         [ForeignKey("Assignment")]
         public int AssignmentId { get; set; }

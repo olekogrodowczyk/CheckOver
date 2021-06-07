@@ -50,43 +50,20 @@
                 <div class="homework">
                     <h2>Oddane zadanie</h2>
 
-                    <textarea id="editor">
+                    <textarea disabled>
                          @Model.Answer
                         </textarea>
                 </div>
                 <div class="checked">
                     <h2>Uwagi</h2>
-                    <textarea id="editor2">
+                    <textarea disabled>
                         @Model.Checking.Remarks
                        </textarea>
                 </div>
             </div>
             <div class="container-btn">
-                <a href="zadania.html" class="btn btn-primary">Wróć</a>
+                <a asp-controller="Exercise" asp-action="Index" class="btn btn-primary">Wróć</a>
             </div>
         </main>
     </div>
 </section>
-
-@section Scripts
-{
-    <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor.create(document.querySelector('#editor'))
-            .then(editor => {
-                console.log(editor);
-                editor.isReadOnly = true; // make the editor read-only right after initialization
-            }).catch(error => {
-                console.error(error);
-            });
-    </script>
-    <script>
-        ClassicEditor.create(document.querySelector('#editor2'))
-            .then(editor => {
-                console.log(editor);
-                editor.isReadOnly = true; // make the editor read-only right after initialization
-            }).catch(error => {
-                console.error(error);
-            });
-    </script>
-}  

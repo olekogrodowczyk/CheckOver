@@ -11,7 +11,7 @@
             </div>
             <div class="informacje">
                 <h3>@Model.Solving.Assignment.Group.Name</h3>
-                <h4>@Model.Solving.Exercise.Description</h4>
+                <h4><pre>@Model.Solving.Exercise.Description</pre></h4>
                 <ul>
                     <li>
                         <h4>Termin oddania zadania:</h4>
@@ -28,62 +28,46 @@
                         <h3>@Model.Solving.Assignment.User.FirstName @Model.Solving.Assignment.User.LastName</h3>
                     </li>
                 </ul>
+                <ul>
+                    <label for="Checking_Points">Maksymalna liczba punktów</label>
+                    <input type="text" disabled data-val="true"
+                           data-val-required="The Punkty field is required." id="Checking_Points"
+                           name="Checking.Points" value="@Model.Solving.Exercise.MaxPoints" />
+                </ul>
             </div>
         </header>
         <main class="page-body">
             <div class="container">
                 <div class="homework">
+
                     <h2>Oddane zadanie</h2>
-                    <div class="document-editor__editable-container">
-                        <textarea asp-for="@Model.Solving.Answer" id="editor">
+
+                    <textarea asp-for="@Model.Solving.Answer" disabled>
         </textarea>
-                    </div>
                 </div>
-                <form asp-action="CheckTheExercise" method="post">
-                    <div class="checked">
+                <div class="checked">
+                    <form asp-action="CheckTheExercise" method="post">
                         <label asp-for="Points">Liczba przyznanych punkt&#xF3;w</label>
                         <input asp-for="Points" type="text" data-val="true" id="Points" name="Points" value="0" />
                         <h2>Uwagi</h2>
-                        <div class="document-editor__editable-container">
-
-                            <div class="document-editor__editable-container"></div>
-                            <textarea asp-for="@Model.Remarks" id="editor2" name="Remarks">
+                        <div class="container_textarea">
+                            <textarea asp-for="@Model.Remarks" name="Remarks">
                             </textarea>
                         </div>
-
-                        <span class="field-validation-valid" asp-validation-for="@Model.Remarks" data-valmsg-for="Remarks"
-                              data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid field-validation-valid" data-valmsg-for="Remarks" data-valmsg-replace="true"></span>
 
                         <div class="container-btn">
                             <input type="submit" class="margin-top-btn" value="Oceń" />
                         </div>
-
-                        <input name="__RequestVerificationToken" type="hidden"
-                               value="CfDJ8H4j3eNZYedPjnlQmy4M_OhvYUjjdvYa9GukLgBrp8nKkxw0g6rzqKh6CQ4VFNZAFsVyi8yoHGhIbDw6OpdpTJMjR85wnSswC6eOy_5Cc7krr8oNXvzKbt08m9ZRB3jRmkOswNPAA7BMMxBZAFFU0XMugwbWnbrSgizvCjAOATP5ISCDDo7N-1ba_QLyRMG-AQ" />
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
+            @if (Model.Solving.Configuration == true && Model.Solving.AutomaticCheckerOutcome != null)
+            {
+                <h2 style="color:white;">Wynik automatycznego sprawdzania</h2>
+
+                <textarea asp-for="@Model.Solving.AutomaticCheckerOutcome" disabled></textarea>
+            }
         </main>
     </div>
 </section>
-
-@section Scripts
-{
-    <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor.create(document.querySelector('#editor'))
-            .then(editor => {
-                console.log(editor);
-                editor.isReadOnly = true; // make the editor read-only right after initialization
-            }).catch(error => {
-                console.error(error);
-            });
-    </script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor2'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
-}  

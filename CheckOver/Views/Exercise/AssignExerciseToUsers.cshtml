@@ -13,12 +13,22 @@
         <main class="page-body">
             <div class="container">
                 <form enctype="multipart/form-data" asp-action="AssignExerciseToUsers" method="post">
+                    <div asp-validation-summary="All"></div>
                     <div class="input-box-small">
                         <p>Termin oddania:</p>
                         <input asp-for="DeadLineString" id="datepicker" type="text" data-val="true" data-val-required="The Czas uko&#x144;czenia field is required." name="DeadLineString" value="" />
                     </div>
+                    @if (Model.Exercise.Arguments != null && Model.Exercise.Arguments != null)
+                    {
+                        <div class="input-checkbox">
+                            <div class="detail">
+                                <input asp-for="Configuration" type="checkbox">
+                                <label for="Automatyczne sprawdzanie">Automatyczne sprawdzanie</label>
+                            </div>
+                        </div>
+                    }
                     <div class="container-btn">
-                        <span class="text-danger field-validation-valid" asp-validation-for="DeadLineString" data-valmsg-for="DeadLineString" data-valmsg-replace="true"></span>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="DeadLineString" data-valmsg-replace="true"></span>
                         <input type="submit" value="Przydziel zadanie" />
                     </div>
 
