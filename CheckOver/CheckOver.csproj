@@ -16,10 +16,6 @@
     <None Remove="Skrypty\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\group\cover\" />
-  </ItemGroup>
-
 
 
   <ItemGroup>

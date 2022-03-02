@@ -372,3 +372,7 @@ FodyWeavers.xsd
 **/migrations/
 /CheckOver/Skrypty
 /CheckOver/Program1.exe
+/CheckOver/wwwroot/group
+/CheckOver/wwwroot/lib
+/CheckOver/wwwroot/vendor
+/CheckOver/wwwroot/fonts
